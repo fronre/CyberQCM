@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>تعريفات — Chapter 4 (Cybersecurity Glossary)</title>
+<style>
+  :root{
+    --bg1:#071821; --neon:#00eaff; --accent:#7c3aed; --muted:#9fb3c8; --card-shadow: 0 8px 40px rgba(2,8,20,0.6);
+  }
+  html,body{height:100%;margin:0;font-family:"Cairo",system-ui,Segoe UI,Roboto,Arial;background:radial-gradient(circle at 10% 10%, #04202a 0%, #000814 60%);color:#e6f6ff}
+  .wrap{max-width:1100px;margin:0 auto;padding:18px}
+  header{padding:35px 20px;margin:0 -20px 35px -20px;background:linear-gradient(135deg, rgba(0,234,255,0.12) 0%, rgba(124,58,237,0.08) 100%);border-bottom:3px solid var(--neon);box-shadow:0 6px 30px rgba(0,234,255,0.15);display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap}
+  header h1{margin:0 0 10px 0;font-size:26px;color:var(--neon);text-shadow:0 0 20px rgba(0,234,255,0.4);font-weight:700;letter-spacing:0.5px}
+  header p{margin:0;font-size:14px;line-height:1.5}
+  .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); padding:16px;border-radius:14px;box-shadow:var(--card-shadow);border:1px solid rgba(255,255,255,0.03)}
+  .controls{display:flex;gap:8px;align-items:center;margin:14px 0}
+  .search{flex:1;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:var(--neon)}
+  .btn{background:var(--neon);color:#002;border:none;padding:9px 12px;border-radius:10px;font-weight:700;cursor:pointer}
+  .grid{display:grid;grid-template-columns:1fr;gap:12px;margin-top:10px}
+  @media(min-width:880px){ .grid{grid-template-columns:1fr 1fr} }
+  .term{padding:12px;border-radius:12px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.02)}
+  .term h3{margin:0;color:var(--accent)}
+  .term p{margin:6px 0;color:#dff6ff}
+  .muted{color:var(--muted);font-size:13px}
+  .toplinks{display:flex;gap:8px;align-items:center}
+  a.link{color:var(--neon);text-decoration:none;font-weight:700;border:1px solid rgba(255,255,255,0.04);padding:6px 10px;border-radius:8px;background:rgba(0,234,255,0.03)}
+  .print{background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--neon);padding:8px;border-radius:8px;cursor:pointer}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>تعريفات الفصل 4</h1>
+      <p>إعداد: <strong>محمد إسلام</strong></p>
+      <p class="muted">تعريفات بالعربية — إنترنت الأشياء، الحافة، الأمن على العتاد. <a class="link" href="main.html">الصفحة الرئيسية</a> — <a class="link" href="chapter01.html">الفصل 1</a></p>
+    </div>
+  </header>
+
+  <div class="card">
+    <div class="controls">
+      <input id="search" class="search" placeholder="ابحث عن مصطلح (مثال: IPsec, TPM, FIDO2, RASP, service mesh)..." />
+      <button id="showAll" class="btn">عرض الكل</button>
+    </div>
+
+    <div id="list" class="grid"></div>
+
+    <div style="margin-top:12px;color:var(--muted);font-size:13px">ملاحظة: يمكنك تعديل أو توسيع المصطلحات لاحقاً. إذا تحب أفرّزها حسب الفئة (عتاد، تطبيق، بنية سحابية...) أخدمها لك.</div>
+  </div>
+</div>
+
+<script>
+const glossary = [
+  {term:"IoT — إنترنت الأشياء", def:"شبكة من الأجهزة المترابطة (حساسات، كاميرات، أجهزة منزلية...) تستخدم الإنترنت للتواصل.", detail:"تتطلب حماية خاصة بسبب قيود المعالجة والتحديث ونقص الضوابط الافتراضية؛ الحماية تشمل تحديثات آمنة، مصادقة قوية، وتشفير الاتصالات."},
+  {term:"Edge computing — حوسبة الحافة", def:"معالجة البيانات قرب مصدرها (على الأجهزة أو العقد المحلية) بدل إرسال كل شيء للسحابة.", detail:"تقلل الكمون وتخفف حركة الشبكة لكنها توسع سطح الهجوم وتستلزم سياسات أمن موحّدة للحافة والسحابة."},
+  {term:"MDM — إدارة الأجهزة المتنقلة", def:"أدوات وسياسات لإدارة أمان الأجهزة المحمولة (هواتف، تابلت) داخل المؤسسة.", detail:"تُستخدم لفرض تشفير، سياسات كلمة السر، إدارة التطبيقات، ومسح عن بعد عند فقدان الجهاز."},
+  {term:"BYOD — سياسة احضر جهازك", def:"سماح الموظفين باستخدام أجهزتهم الشخصية لأغراض العمل مع بناء سياسات أمنية.", detail:"يتطلب تقسيم بيانات العمل عن الشخصية، MDM، وقيود وصول لضمان عدم تسرب بيانات المؤسسات."},
+  {term:"Secure Boot — الإقلاع الآمن", def:"آلية تضمن أن الجهاز يقلع فقط بواسطة كود موقع رقميًا موثوق.", detail:"تحمي سلسلة الإقلاع من تحميل نواة أو برامج ضارة غير موقعة وتستخدم سلاسل ثقة مثبتة في العتاد."},
+  {term:"UEFI vs BIOS", def:"UEFI واجهة نظام إدخال/إخراج حديثة تدعم ميزات أمنية مثل Secure Boot؛ BIOS أقدم وأبسط.", detail:"UEFI يقدّم إمكانيات توقيع وتحقق أفضل بينما BIOS محدود وبدائي."},
+  {term:"Hardware Root of Trust — جذر الثقة العتادي", def:"عنصر عتادي (مثل TPM) يؤسس لبيئة موثوقة لتخزين المفاتيح والتحقق من سلامة النظام.", detail:"يوفر مكاناً آمناً للمفاتيح وإمكانيات إثبات سلامة الإقلاع والمكونات."},
+  {term:"TPM — Trusted Platform Module", def:"شريحة عتادية لتخزين المفاتيح وعمليات التشفير والتحقق (attestation).", detail:"تستخدم لتخزين مفاتيح التشفير، دعم Secure Boot، وتوفير دوال لإثبات سلامة الجهاز."},
+  {term:"Disk encryption — تشفير القرص", def:"تشفير كل محتويات القرص لحماية البيانات عند فقدان الوسائط.", detail:"أمثلة: BitLocker (ويندوز)، LUKS (لينكس). يحتاج إدارة مفاتيح سليمة وعدم ترك المفاتيح على نفس الوسيلة."},
+  {term:"Mobile app sandboxing — عزل التطبيقات", def:"فصل تطبيقات الهاتف داخل حدود صارمة لتقليل الوصول للبيانات والوظائف الحساسة.", detail:"يساعد في الحد من آثار تطبيق خبيث عن طريق فرض أذونات ونطاقات مخصصة."},
+  {term:"Phishing-resistant MFA — مصادقة متعددة العوامل مقاومة للتصيّد", def:"طرق مصادقة (مثل FIDO2) تصعب سرقة بيانات الاعتماد عبر صفحات التصيّد.", detail:"تعتمد على مفاتيح عامة/خاصة أو أجهزة فعلية تمنع إعادة استخدام رموز الاعتماد على صفحات مزيفة."},
+  {term:"FIDO2", def:"معيار مصادقة قوي يعتمد على مفاتيح تشفير محلية (أجهزة أو برمجية) للمصادقة بدون كلمة سر.", detail:"يوفّر مصادقة مقاومة للتصيّد ويدعم تسجيل المفاتيح والتحقق المحلي دون كشف كلمة السر."},
+  {term:"Biometric authentication — المصادقة الحيوية", def:"استخدام بصمة أو وجه أو خواص بيومترية للتحقق من الهوية.", detail:"مريحة لكنها حساسة: بياناتها غير قابلة للتغيير إذا تسربت لذا يجب تخزين تمثيل مشفّر وآمن."},
+  {term:"Supply chain integrity — سلامة سلسلة التوريد", def:"التحقق من أن المكونات البرمجية/العتادية أصلية ولم تُعبث بها أثناء التصنيع أو التوزيع.", detail:"يشمل توقيع الحزم، التحقق من التواقيع، وفحوص الإصدار قبل النشر."},
+  {term:"Secure coding — البرمجة الآمنة", def:"ممارسات كتابة الشيفرة لمنع الثغرات (تحقق من المدخلات، معالجة الأخطاء، استخدام مكتبات موثوقة).", detail:"جزء أساسي من SDLC يقلل تكاليف الإصلاح ويعزز جودة المنتج."},
+  {term:"Dependency scanning — فحص التبعيات", def:"تحليل مكونات الطرف الثالث والمكتبات المفتوحة للكشف عن ثغرات أو تراخيص غير مناسبة.", detail:"أدوات SCA تفحص وتبلّغ عند وجود مكونات معرضة يجب تحديثها."},
+  {term:"RASP — Runtime Application Self-Protection", def:"حماية داخل التطبيق وقت التشغيل تكشف وتمنع هجمات أثناء تنفيذ التطبيق.", detail:"تعمل في مستوى التطبيق لتصد محاولات الاستغلال فور حدوثها دون الحاجة لطبقة خارجية فقط."},
+  {term:"Chaos engineering for security", def:"إدخال أعطال مقصودة ومراقبة الاستجابة لتحسين المرونة والأمن.", detail:"يُستخدم لاختبار الإجراءات، خطط الاستجابة، واكتشاف نقاط الضعف التشغيلية."},
+  {term:"Secure telemetry — جمع بيانات آمن", def:"نقل البيانات المرسلة للمراقبة والتحليل بطريقة تحمي الأسرار والخصوصية.", detail:"يشمل تشفير النقل، فلترة الحساسات، وعدم إرسال معلومات شخصية حساسة."},
+  {term:"API security — أمن واجهات برمجة التطبيقات", def:"تأمين الـAPIs عبر المصادقة، التفويض، التحقق من المدخلات، وتحديد المعدل.", detail:"حماية APIs تمنع تسرب البيانات وإساءة استخدام الخدمات الخلفية."},
+  {term:"Service mesh", def:"طبقة بنية تحتية لإدارة الاتصالات بين الخدمات المصغرة (مثل mTLS، سياسات، رصد)", detail:"توفر أمان الحركة، سياسات وصول، وتعقب دون تغيير كود الخدمة."},
+  {term:"Token binding — ربط التوكن", def:"ربط رموز الجلسة بجلسة TLS أو جهاز لمنع إعادة استخدام التوكن المسروق.", detail:"يزيد من مقاومة سرقة التوكن عبر جعل التوكن صالحًا لجهة اتصال أو جهاز معين فقط."},
+  {term:"Certificate pinning — ربط الشهادة", def:"ربط التطبيق بشهادة أو مفتاح معين لمنع MITM، لكن قد يسبب انقطاعًا إذا تغيّرت الشهادة.", detail:"يقي من هجمات الطرف الثالث لكنه يتطلب إدارة تحديث الشهادات بعناية."},
+  {term:"Edge-to-cloud consistency", def:"تطبيق سياسات موحدة ومراقبة بين الحافة والسحابة المتباينة.", detail:"يتطلب أدوات توحيد التكوين، تحديثات آمنة، وسياسات مراقبة متسقة."},
+  {term:"Supply chain attestation", def:"إصدار ادعاءات موثوقة (attestations) حول حالة المكونات لبناء ثقة سلاسل التوريد.", detail:"يسمح بالتحقق من أن المكون تم بناؤه وصُدّر بطريقة موثوقة."},
+  {term:"Privacy engineering — هندسة الخصوصية", def:"تصميم الأنظمة بطريقة تحمي خصوصية المستخدم (تصغير البيانات، تشفير، سياسات واضحة).", detail:"يساعد الامتثال للوائح ويحمي حقوق المستخدم ويقلل المخاطر القانونية."},
+  {term:"Ethical hacking — الاختراق الأخلاقي", def:"اختبارات اختراق مرخّصة تهدف لاكتشاف نقاط الضعف وإصلاحها قبل استغلالها.", detail:"تُجرى ضمن اتفاقيات واضحة ونطاق محدد وتحترم القوانين."},
+  {term:"Credential hygiene — نظافة بيانات الاعتماد", def:"أفضل ممارسات لإدارة كلمات السر والمفاتيح: كلمات فريدة، MFA، تدوير الأسرار.", detail:"تقلل فرص نجاح هجمات credential stuffing وتسرب الحسابات."},
+  {term:"Secrets management — إدارة الأسرار", def:"أدوات وخدمات لتخزين وتدوير المفاتيح والتوكنات بأمان (مثال: Vault).", detail:"يمنع حفظ الأسرار في الكود أو ملفات التكوين العامة ويُسهل التحكم بالوصول."},
+  {term:"Canary releases", def:"نشر تدريجي لإصدار جديد لشريحة صغيرة من المستخدمين لاكتشاف المشاكل مبكراً.", detail:"يسمح بالتراجع السريع إن ظهر خلل أو ثغرة قبل أن تؤثر على كامل الجمهور."},
+  {term:"Observability vs monitoring", def:"المراقبة تجمّع مؤشرات معروفة؛ القدرة على الملاحظة (observability) تمكّنك من استنتاج الحالة الداخلية من المخرجات.", detail:"Observability تعتمد على traces, metrics, logs لفهم السلوك غير المتوقع."},
+  {term:"Immutable infrastructure", def:"بنية تُستبدل بالكامل عند تحديثها بدلاً من تعديلها (rebuild not patch).", detail:"تقلل drift وتعزّز القدرة على الاسترجاع والتتبع في البيئات السحابية."},
+  {term:"SOAR — Security Orchestration And Automation", def:"أتمتة وتنسيق استجابة الحوادث عبر Playbooks وربط الأدوات.", detail:"يسرّع الاستجابة ويقلل التدخل اليدوي للمهام المتكررة."},
+  {term:"Threat feed", def:"تغذية بمؤشرات التهديد (IoCs) تُستخدم لتحديث قواعد الكشف تلقائياً.", detail:"تُدمَج مع أدوات SIEM وIDS/IPS لتحسين سرعة الكشف."},
+  {term:"Adversary emulation", def:"محاكاة سلوك خصم حقيقي باستخدام TTPs لاختبار فعالية الدفاع.", detail:"يُبنى عادةً على MITRE ATT&CK لتمثيل سلاسل هجوم واقعية."},
+  {term:"Cyber range", def:"بيئة تدريب محاكاة لتدريب الفرق الأمنية على سيناريوهات حقيقية.", detail:"تمكّن فرق red/blue من التدريب على سيناريوهات هجومية ودفاعية بشكل آمن."},
+  {term:"Continuous compliance", def:"مراقبة وعمليات آلية للتأكد المستمر من الامتثال للمعايير والقوانين.", detail:"تسهل التدقيق وتقلل المخاطر القانونية بتحديث السياسات تلقائياً."}
+];
+
+const listEl = document.getElementById('list');
+
+function renderTerms(arr){
+  listEl.innerHTML = '';
+  arr.forEach(t=>{
+    const d = document.createElement('div');
+    d.className = 'term';
+    d.innerHTML = `<h3>${t.term}</h3><p><strong>تعريف:</strong> ${t.def}</p><p class="muted"><strong>تفصيل:</strong> ${t.detail}</p>`;
+    listEl.appendChild(d);
+  });
+}
+
+renderTerms(glossary);
+
+document.getElementById('search').addEventListener('input', function(){
+  const s = this.value.trim().toLowerCase();
+  if(!s){ renderTerms(glossary); return; }
+  const filtered = glossary.filter(t => (t.term.toLowerCase().includes(s) || t.def.toLowerCase().includes(s) || t.detail.toLowerCase().includes(s)));
+  renderTerms(filtered);
+});
+
+document.getElementById('showAll').addEventListener('click', function(){ renderTerms(glossary); });
+
+</script>
+</body>
+</html>

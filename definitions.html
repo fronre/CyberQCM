@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>تعريفات — Cybersecurity Glossary</title>
+<style>
+  :root{
+    --bg1:#071821; --neon:#00eaff; --accent:#7c3aed; --muted:#9fb3c8; --card-shadow: 0 8px 40px rgba(2,8,20,0.6);
+  }
+  html,body{height:100%;margin:0;font-family:"Cairo",system-ui,Segoe UI,Roboto,Arial;background:radial-gradient(circle at 10% 10%, #04202a 0%, #000814 60%);color:#e6f6ff}
+  .wrap{max-width:1000px;margin:0 auto;padding:18px}
+  header{padding:35px 20px;margin:0 -20px 35px -20px;background:linear-gradient(135deg, rgba(0,234,255,0.12) 0%, rgba(124,58,237,0.08) 100%);border-bottom:3px solid var(--neon);box-shadow:0 6px 30px rgba(0,234,255,0.15);display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap}
+  header h1{margin:0 0 10px 0;font-size:26px;color:var(--neon);text-shadow:0 0 20px rgba(0,234,255,0.4);font-weight:700;letter-spacing:0.5px}
+  header p{margin:0;font-size:14px;line-height:1.5}
+  .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); padding:16px;border-radius:14px;box-shadow:var(--card-shadow);border:1px solid rgba(255,255,255,0.03)}
+  .controls{display:flex;gap:8px;align-items:center;margin:14px 0}
+  .search{flex:1;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:var(--neon)}
+  .btn{background:var(--neon);color:#002;border:none;padding:9px 12px;border-radius:10px;font-weight:700;cursor:pointer}
+  .grid{display:grid;grid-template-columns:1fr;gap:12px;margin-top:10px}
+  @media(min-width:880px){ .grid{grid-template-columns:1fr 1fr} }
+  .term{padding:12px;border-radius:12px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.02)}
+  .term h3{margin:0;color:var(--accent)}
+  .term p{margin:6px 0;color:#dff6ff}
+  .muted{color:var(--muted);font-size:13px}
+  .toplinks{display:flex;gap:8px;align-items:center}
+  a.link{color:var(--neon);text-decoration:none;font-weight:700;border:1px solid rgba(255,255,255,0.04);padding:6px 10px;border-radius:8px;background:rgba(0,234,255,0.03)}
+  .print{background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--neon);padding:8px;border-radius:8px;cursor:pointer}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>تعريفات الفصل 1</h1>
+      <p>إعداد: <strong>محمد إسلام</strong></p>
+      <p class="muted">تعريفات مفصّلة بالعربية — نسخة متناسقة مع تصميم الاختبار. <a class="link" href="main.html">الصفحة الرئيسية</a></p>
+    </div>
+  </header>
+
+  <div class="card">
+    <div class="controls">
+      <input id="search" class="search" placeholder="ابحث عن مصطلح (مثال: ransomware, XSS, DNS)..." />
+      <button id="showAll" class="btn">عرض الكل</button>
+    </div>
+
+    <div id="list" class="grid"></div>
+
+    <div style="margin-top:12px;color:var(--muted);font-size:13px">المصطلحات مرتبة بطريقة تُسهّل المراجعة السريعة — تقدر تبحث أو تطبع الصفحة للرجوع إليها لاحقاً.</div>
+  </div>
+</div>
+
+<script>
+const glossary = [
+  {term:"Confidentiality — السرية", def:"حماية المعلومات من الوصول أو الإفشاء غير المصرح به.", detail:"تضمن أن لا يطلع أي طرف غير مخول على المعلومات الحساسة. تقنيات: تشفير، سياسات تحكم وصول."},
+  {term:"Integrity — التكامل", def:"ضمان أن البيانات لم تُغير أو تُعبث بها بدون تصريح.", detail:"آليات مثل الهاش والتوقيع الرقمي تكشف أي تعديل غير مصرح."},
+  {term:"Availability — التوفّر", def:"تأمين وصول المستخدمين المصرح لهم إلى الموارد عند الحاجة.", detail:"سياسات نسخ احتياطية، توافرية الخدمات، والتخفيف من هجمات DoS."},
+  {term:"Malware — البرمجيات الخبيثة", def:"برامج تهدف للتدمير أو التجسس أو الابتزاز.", detail:"أنواع: فيروسات، worms, trojans, ransomware, rootkits, fileless malware."},
+  {term:"XSS — Cross-Site Scripting", def:"ثغرة تسمح بحقن سكربت في صفحات الويب التي تعرض للمستخدمين.", detail:"أنواع: Reflected, Stored, DOM-based. الأثر: سرقة الجلسات، تغيير المحتوى، إعادة التوجيه."},
+  {term:"SQL Injection — حقن SQL", def:"حقن أوامر SQL ضارة عبر مدخلات غير منقحة.", detail:"يسمح للمهاجم قراءة/تعديل قواعد البيانات أو تجاوز المصادقة. الوقاية: استعلامات مُعلمة (prepared statements)."},
+  {term:"Ransomware — فدية برمجية", def:"برمجية تشفّر ملفات الضحية وتطلب فدية.", detail:"تنتشر عن طريق بريد خبيث أو ثغرات؛ الوقاية: نسخ احتياطية، تحديثات، تثقيف المستخدم."},
+  {term:"ARP Poisoning — تسميم ARP", def:"إدخال خرائط MAC/IP خاطئة في الشبكة المحلية.", detail:"يؤدي لاعتراض مرور الشبكة أو تنفيذ MITM. الحماية: static ARP, مراقبة الشبكة."},
+  {term:"IP Spoofing — تزوير IP", def:"إرسال حزم بعنوان مصدر مزور.", detail:"يستخدم لإخفاء المصدر أو تجاوز قيود التحكم بالوصول."},
+  {term:"DNS Cache Poisoning — تسميم DNS", def:"إدخال مداخل DNS خاطئة في ذاكرة التخزين المؤقت.", detail:"يعيد توجيه المستخدمين لمواقع ضارة بدل المواقع الحقيقية."},
+  {term:"SYN Flood — هجوم SYN", def:"إرسال عدد كبير من طلبات SYN دون إتمام المصافحة.", detail:"يستنزف موارد الخادم ويؤدي لحرمان الخدمة (DoS)."},
+  {term:"Firewall — جدار حماية", def:"آلية لفصل وفلترة حركة الشبكة.", detail:"يمكن تطبيق قواعد على مستوى الشبكة أو التطبيق لرفض/السماح بالاتصالات."},
+  {term:"IDS/IPS — كشف/منع التسلل", def:"أنظمة لمراقبة الشبكة وتحديد ومنع الهجمات.", detail:"IDS يكتشف، IPS يكبح ويمنع النشاط المشبوه."},
+  {term:"Hashing — التهشير", def:"دالة تحويل أحادية الاتجاه لتمثيل البيانات.", detail:"يستعمل للتحقق من سلامة البيانات وتخزين كلمات السر بشكل آمن (مع salt)."},
+  {term:"Salt — السالت", def:"قيمة عشوائية تضاف قبل التهشير.", detail:"تمنع استخدام جداول قوس قزح وهجمات القواميس على الهاش."},
+  {term:"Phishing — التصيد الاحتيالي", def:"رسائل أو مواقع مخادعة لسرقة بيانات المستخدمين.", detail:"يشمل email phishing، SMS phishing (smishing)، وصوتي (vishing). الحماية: الوعي، فلاتر البريد."},
+  {term:"Social Engineering — الهندسة الاجتماعية", def:"استغلال السلوك البشري للحصول على معلومات.", detail:"تقنيات: pretexting، baiting، tailgating، impersonation."},
+  {term:"Honeypot — طُعم أمني", def:"نظام جذّاب لمهاجمين لجمع معلومات عنهم.", detail:"يستخدم لدراسة سلوك المهاجمين وتحسين الدفاعات."},
+  {term:"Penetration Testing — اختبار الاختراق", def:"محاكاة هجوم مصرح بها لاكتشاف ثغرات.", detail:"يجريها مختصون لإعطاء صورة عن قابلية الاختراق وتحسين الأمان."},
+  {term:"Zero-day — ثغرة صفر-يوم", def:"ثغرة غير معلومة ولم يصدر لها تصحيح.", detail:"خطر كبير لأن لا حلول متاحة حتى اكتشافها ونشر تصليح."},
+  {term:"Sandbox — بيئة معزولة", def:"بيئة تشغيل آمنة لتحليل البرمجيات المشبوهة.", detail:"تسمح بمراقبة السلوك دون تعريض الأنظمة الحقيقية."},
+  {term:"Fileless malware — برمجية خالية من الملفات", def:"تعمل في الذاكرة وتترك أثر قليل على القرص.", detail:"مكافحة تتطلب فحص العمليات والذاكرة وليس الملفات فقط."},
+  {term:"CVE — معرف الثغرات", def:"قاعدة بيانات ومعرف موحّد للثغرات.", detail:"يساعد في تتبع التحديثات والتصحيحات لكل ثغرة."},
+  {term:"Defense in Depth — الدفاع المتدرج", def:"طبقات متعددة من الضوابط الأمنية.", detail:"فكرة أن طبقة واحدة مكشوفة لا تعني خلل شامل."},
+  {term:"Least Privilege — أقل الامتيازات", def:"منح أدنى صلاحيات لازمة للمستخدم.", detail:"يساهم في تقليل أثر اختراق حساب واحد."},
+  {term:"VPN — الشبكة الخاصة الافتراضية", def:"نفق مشفّر لحركة المستخدم عبر الإنترنت.", detail:"يحمي من التنصت ويخفي عنوان IP الحرّ."},
+  {term:"Nmap — أداة فحص الشبكات", def:"أداة لاستكشاف الأجهزة والمنافذ على الشبكة.", detail:"تستخدم في التقييم الأمني لكنها أيضاً أداة reconnaissance للمهاجمين."}
+];
+
+/* render list */
+const listEl = document.getElementById('list');
+
+function renderTerms(arr){
+  listEl.innerHTML = '';
+  arr.forEach(t=>{
+    const d = document.createElement('div');
+    d.className = 'term';
+    d.innerHTML = `<h3>${t.term}</h3><p><strong>تعريف:</strong> ${t.def}</p><p class="muted"><strong>تفصيل:</strong> ${t.detail}</p>`;
+    listEl.appendChild(d);
+  });
+}
+
+renderTerms(glossary);
+
+/* search */
+document.getElementById('search').addEventListener('input', function(){
+  const s = this.value.trim().toLowerCase();
+  if(!s){ renderTerms(glossary); return; }
+  const filtered = glossary.filter(t => (t.term.toLowerCase().includes(s) || t.def.toLowerCase().includes(s) || t.detail.toLowerCase().includes(s)));
+  renderTerms(filtered);
+});
+
+document.getElementById('showAll').addEventListener('click', function(){ renderTerms(glossary); });
+
+</script>
+</body>
+</html>

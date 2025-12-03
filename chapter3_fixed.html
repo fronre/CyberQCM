@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Chapter 3 — Cybersecurity Quiz (50 Questions)</title>
+<style>
+  :root{
+    --neon:#00eaff; --accent:#7c3aed; --muted:#9fb3c8; --good:#16a34a; --bad:#ef4444;
+    --card-shadow: 0 8px 40px rgba(2,8,20,0.6);
+  }
+  html,body{height:100%;margin:0;font-family:"Cairo",sans-serif;background:radial-gradient(circle at 10% 10%, #04202a 0%, #000814 60%);color:#e6f6ff}
+  .wrap{max-width:1100px;margin:0 auto;padding:18px}
+  header{padding:35px 20px;margin:0 -20px 35px -20px;background:linear-gradient(135deg, rgba(0,234,255,0.12) 0%, rgba(124,58,237,0.08) 100%);border-bottom:3px solid var(--neon);box-shadow:0 6px 30px rgba(0,234,255,0.15);display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap}
+  header h1{margin:0 0 10px 0;font-size:26px;color:var(--neon);text-shadow:0 0 20px rgba(0,234,255,0.4);font-weight:700;letter-spacing:0.5px}
+  header p{margin:0;font-size:14px;line-height:1.5}
+  .layout{display:grid;grid-template-columns:320px 1fr;gap:18px;margin-top:18px}
+  @media(max-width:920px){ .layout{grid-template-columns:1fr} }
+  .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); padding:16px;border-radius:14px;box-shadow:var(--card-shadow);border:1px solid rgba(255,255,255,0.03)}
+  .muted{color:var(--muted)}
+  .controls{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
+  .search{flex:1;padding:8px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:var(--neon)}
+  .btn{background:var(--neon);color:#002;border:none;padding:10px 12px;border-radius:10px;font-weight:700;cursor:pointer}
+  .btn.secondary{background:transparent;color:var(--neon);border:1px solid rgba(255,255,255,0.04)}
+  .qcard{margin-bottom:12px;padding:14px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));border:1px solid rgba(255,255,255,0.02)}
+  .qtext{font-weight:700;color:#c9f4ff;margin-top:8px}
+  .opts{margin-top:10px;display:flex;flex-direction:column;gap:8px}
+  .opt{padding:10px;border-radius:10px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.02);cursor:pointer;transition:all .15s}
+  .opt.correct{background:rgba(22,163,74,0.12);border-color:rgba(22,163,74,0.4)}
+  .opt.wrong{background:rgba(239,68,68,0.08);border-color:rgba(239,68,68,0.35)}
+  .reveal{padding:10px;border-radius:10px;background:linear-gradient(90deg, rgba(0,234,255,0.04), rgba(124,58,237,0.03));display:none}
+  .score-wrap{margin-top:16px;padding:14px;border-radius:12px;background:linear-gradient(180deg, rgba(124,58,237,0.04), rgba(0,0,0,0.2));border:1px solid rgba(255,255,255,0.02)}
+  a.link{color:var(--neon);text-decoration:none;font-weight:700;border:1px solid rgba(255,255,255,0.04);padding:6px 10px;border-radius:8px;background:rgba(0,234,255,0.03)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>Chapter 3 — Cybersecurity QCM (50 Questions)</h1>
+      <p>إعداد: <strong>محمد إسلام</strong></p>
+      <p class="muted">الأسئلة بالإنجليزية — الإجابات والشروح بالعربية. <a class="link" href="definitions.html">التعريفات</a> — <a class="link" href="chapter01.html">الفصل 1</a> — <a class="link" href="main.html">الصفحة الرئيسية</a></p>
+    </div>
+  </header>
+
+  <div class="layout">
+    <aside class="card">
+      <h3 style="color:var(--neon)">ملحوظات سريعة</h3>
+      <ul style="color:var(--muted);line-height:1.6">
+        <li>كل الأسئلة تم إعدادها للتعلّم — استفد من الشروحات بعد كل إجابة</li>
+        <li>إذا بدّلت ترتيب الخيارات، حدّث الخريطة الصحيحة عندي</li>
+      </ul>
+    </aside>
+
+    <main>
+      <div class="card">
+        <div class="controls">
+          <input id="search" class="search" placeholder="ابحث عن سؤال أو خيار..." />
+          <button id="shuffle" class="btn secondary">خلط</button>
+          <button id="showAll" class="btn secondary">عرض الكل</button>
+        </div>
+
+        <div id="quizList"></div>
+
+        <div class="score-wrap">
+          <h2 style="color:var(--neon)">النتيجة</h2>
+          <div id="resultText" style="color:#dff6ff">لم يتم احتساب النتيجة بعد.</div>
+          <div style="margin-top:8px;display:flex;gap:8px">
+            <button id="finishBtn" class="btn">إنهاء وحساب النتيجة</button>
+            <button id="resetBtn" class="btn secondary">إعادة تعيين</button>
+          </div>
+          <div id="advice" style="margin-top:8px;color:var(--muted)"></div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+</div>
+
+<script>
+/* Chapter 3 dataset (50 questions) */
+const questions = [
+  /* 0 */ { q:"What is symmetric encryption?", opts:["Same key for encrypt/decrypt","Different keys for each side","Hashing method","Password policy"], answerArabic:"تشفير يستخدم نفس المفتاح للتشفير وفك التشفير.", exp1:"سريع ومناسب لتشفير كميات كبيرة من البيانات.", exp2:"يتطلب توزيع آمن للمفتاح بين الأطراف."},
+  /* 1 */ { q:"What is asymmetric encryption?", opts:["Public/private key pair for encrypt/decrypt","Single shared key","File compression","Port forwarding"], answerArabic:"تشفير يستخدم مفتاح عام وآخر خاص للمصادقة والتشفير.", exp1:"يسمح بتبادل آمن للمفاتيح وإثبات الهوية.", exp2:"أبطأ من التماثلي ويستخدم عادة لتبادل المفاتيح والتوقيع الرقمي."},
+  /* 2 */ { q:"What is a digital signature?", opts:["Cryptographic proof of origin and integrity","Image watermark","Firewall rule","Backup log"], answerArabic:"توقيع رقمي يثبت هوية المرسل وسلامة المحتوى.", exp1:"يستخدم المفتاح الخاص للتوقيع والمفتاح العام للتحقق.", exp2:"يكشف أي تعديل بعد التوقيع ويضمن عدم الإنكار."},
+  /* 3 */ { q:"What is PKI (Public Key Infrastructure)?", opts:["Framework for issuing and managing digital certs","Physical security plan","Network switch","Malware tool"], answerArabic:"بنية تحتية لإصدار وإدارة الشهادات الرقمية والمفاتيح.", exp1:"تشمل CA وCRL وOCSP وسياسات إصدار الشهادات.", exp2:"أساس للثقة في الشبكات والخدمات المشفرة."},
+  /* 4 */ { q:"What is 'entropy' in cryptography?", opts:["Measure of randomness in data","Network speed","CPU load","Disk free space"], answerArabic:"مقياس للعشوائية في البيانات — مهم لتوليد مفاتيح قوية.", exp1:"قيمة عالية تعني مفاتيح أقل توقعاً وأسهل مقاومة للهجوم.", exp2:"مصادر عشوائية ضعيفة تؤدي لمفاتيح قابلة للتخمين."},
+  /* 5 */ { q:"What is 'key exchange' (e.g., Diffie-Hellman)?", opts:["Securely agree on shared secret over insecure channel","Encrypt files","Hash passwords","Update certificates"], answerArabic:"آلية للتوصل لمفتاح مشترك بين طرفين عبر قناة غير آمنة.", exp1:"Diffie-Hellman يسمح لتوليد سر مشترك دون إرساله مباشرة.", exp2:"يجب دمجه مع مصادقة لتجنب هجمات الرجل في المنتصف."},
+  /* 6 */ { q:"What is 'perfect forward secrecy'?", opts:["Ephemeral keys so past sessions remain secure","Single long-lived key","Disk encryption","Single sign-on"], answerArabic:"استخدام مفاتيح مؤقتة بحيث لا يتسبب كشف مفتاح لاحقاً في كشف جلسات قديمة.", exp1:"حتى لو سُرق مفتاح الخادم فإن الجلسات القديمة تظل آمنة.", exp2:"يستخدم مفاتيح مؤقتة كل جلسة (ephemeral keys)."},
+  /* 7 */ { q:"What is 'TLS' best practice for servers?", opts:["Use latest protocol versions and strong ciphers","Disable encryption","Use MD5","Use self-signed only"], answerArabic:"استخدام إصدارات حديثة وشفرة قوية وتحديث الشهادات بشكل دوري.", exp1:"تجنب SSLv2/3، وTLS1.0، وتأكد من إعدادات Cipher Suites.", exp2:"تفعيل HSTS وCertificate pinning يعززان الأمان."},
+  /* 8 */ { q:"What is 'hash collision'?", opts:["Two different inputs produce same hash","Encryption failure","Session timeout","Broken pipe"], answerArabic:"حالة ينتج فيها مدخلان مختلفان نفس قيمة الهاش.", exp1:"يقلل من موثوقية الهاش كوسيلة تحقق إذا كانت سهلة الحدوث.", exp2:"خوارزميات قديمة (مثل MD5) عرضة لذلك؛ استخدم SHA-2/3."},
+  /* 9 */ { q:"What is 'key escrow'?", opts:["Third party storing keys for recovery","Key destruction","Key rotation","Keyless encryption"], answerArabic:"إيداع المفاتيح لدى طرف ثالث لاسترجاعها عند الحاجة.", exp1:"يُستخدم لأغراض التعافي القانوني لكنه يخلق نقطة ثقة/ضعف.", exp2:"يتطلب سياسات وإجراءات صارمة لمنع إساءة الاستخدام."},
+  /* 10 */ { q:"What is 'tokenization'?", opts:["Replacing sensitive data with tokens","Encrypting disk","Network token","Hashing only"], answerArabic:"استبدال بيانات حساسة برموز بديلة لا تحمل معنى خارج النظام.", exp1:"يسمح بحماية البيانات الحساسة دون تعديل الأنظمة القديمة.", exp2:"الربط بين التوكن والبيانات يُخزن بأمان في نظام منفصل."},
+  /* 11 */ { q:"What is 'HSM' (Hardware Security Module)?", opts:["Secure hardware for key storage and crypto ops","General purpose server","Backup device","Network router"], answerArabic:"جهاز مخصص لتخزين المفاتيح وتنفيذ عمليات التشفير بأمان.", exp1:"يقيّد الوصول للمفاتيح ويمنع استخراجها بالبرمجيات.", exp2:"مهم للبنوك والمؤسسات التي تتطلب حماية عالية للمفاتيح."},
+  /* 12 */ { q:"What is 'data at rest' encryption?", opts:["Encrypting stored data on disk or backups","Encrypting data in transit","Encrypting logs","Encrypting CPU"], answerArabic:"تشفير البيانات المخزنة على القرص أو النسخ الاحتياطية.", exp1:"يحمي البيانات إذا سرق القرص أو وسيلة التخزين.", exp2:"يجب إدارة المفاتيح بشكل آمن وعدم تركها على نفس القرص."},
+  /* 13 */ { q:"What is 'data in transit' encryption?", opts:["Encrypting data while moving over network","Encrypting files on disk","Encrypting registry","Encrypting logs"], answerArabic:"تشفير البيانات أثناء نقلها عبر الشبكة لتجنب التنصت.", exp1:"TLS/SSL وVPN من الطرق الشائعة لتأمين النقل.", exp2:"التحقق من الشهادات يمنع هجمات MITM."},
+  /* 14 */ { q:"What is 'role-based access control (RBAC)'?", opts:["Permissions assigned by role/group","User-specific only","Open access","Network ACL"], answerArabic:"تعريف الوصول بناءً على الأدوار لتسهيل الإدارة.", exp1:"يسمح بتجميع الصلاحيات وتعيينها للأدوار بدلاً من المستخدمين.", exp2:"يسهل مراجعة الصلاحيات وتقليل الأخطاء اليدوية."},
+  /* 15 */ { q:"What is 'attribute-based access control (ABAC)'?", opts:["Access control based on attributes and policies","Role-only model","Password policy","Network address"], answerArabic:"التحكم بالوصول اعتماداً على سمات متعددة وقواعد دقيقة.", exp1:"يمكن أن يأخذ سمات المستخدم والبيئة والوقت والموارد.", exp2:"أكثر مرونة من RBAC لكنه أعقد في التصميم."},
+  /* 16 */ { q:"What is 'privilege escalation'?", opts:["Gaining higher access than authorized","Encrypting privilege","User logout","Account lock"], answerArabic:"الحصول على صلاحيات أعلى من المصرح بها (عمودي أو جانبي).", exp1:"قد يستغل مهاجم ثغرات أو إعدادات خاطئة لرفع صلاحياته.", exp2:"التصحيحات والحد من الصلاحيات تقلل المخاطر."},
+  /* 17 */ { q:"What is 'vulnerability assessment'?", opts:["Identifying and prioritizing vulnerabilities","Exploiting systems","Backing up servers","Penetration only"], answerArabic:"تقييم الثغرات عبر مسح وتحديد نقاط الضعف وترتيب أولوياتها.", exp1:"يشمل فحص الإعدادات، البرمجيات والأنظمة.", exp2:"نتائجه تساعد في تركيز جهود التصحيح."},
+  /* 18 */ { q:"What is 'penetration test'?", opts:["Authorized simulated attack to test defenses","Backup run","Log rotation","Password change"], answerArabic:"محاكاة هجوم مصرح بها للكشف عن نقاط الضعف والاختراق المحتمل.", exp1:"يُجرى بهجوم عملي لتقييم قدرة الدفاع على الصمود.", exp2:"يجب أن يتبع خطة محددة ويتضمن تقريراً لتحسين الأمان."},
+  /* 19 */ { q:"What is 'vulnerability disclosure policy'?", opts:["Procedure to report and handle discovered flaws","Encryption policy","Backup schedule","User onboarding"], answerArabic:"سياسة لاستلام ومعالجة الإبلاغ عن ثغرات من باحثين ومستخدمين.", exp1:"تحدد القنوات، المهل، والمكافآت أحياناً للباحثين (bug bounty).", exp2:"تُحسّن التعاون وتسرع إصلاح الثغرات."},
+  /* 20 */ { q:"What is 'change management' in security?", opts:["Controlled process to modify systems without risk","Instant updates","No policy","Manual only"], answerArabic:"عملية منظّمة لتطبيق التغييرات بطريقة تقلل المخاطر.", exp1:"تشمل اختبار التغييرات، الموافقات والاختزال للخطر.", exp2:"تمنع تعطّل الخدمات وتقلل الخطأ البشري عند التحديث."},
+  /* 21 */ { q:"What is 'business continuity plan (BCP)'?", opts:["Plan to keep essential functions during disruption","Antivirus policy","Email retention","User training"], answerArabic:"خطة لاستمرار الأعمال والخدمات خلال انقطاع أو كارثة.", exp1:"تشمل استراتيجيات توافر، نسخ احتياطي، ومواقع بديلة.", exp2:"يُختبر دورياً لضمان القدرة على الاستجابة."},
+  /* 22 */ { q:"What is 'disaster recovery (DR)'?", opts:["Process to restore systems and data after major incident","Daily backups only","Encryption process","Antivirus update"], answerArabic:"إجراءات لاستعادة الأنظمة والبيانات بعد حادث كبير.", exp1:"جزء من خطة استمرارية الأعمال يركز على الاستعادة التقنية.", exp2:"يتضمن ترتيب أولويات الأنظمة وفترات استعادة مقبولة (RTO/RPO)."},
+  /* 23 */ { q:"What is 'security policy'?", opts:["Formal rules and expectations for security behavior","Antivirus install","Network cable","Password only"], answerArabic:"مجموعة قواعد وإجراءات مكتوبة توجه السلوك والعمليات الأمنية.", exp1:"تشمل السياسات التقنية والإدارية والفيزيائية.", exp2:"تُحدّث باستمرار وتُطبّق عبر تدريب ومراجعات."},
+  /* 24 */ { q:"What is 'awareness training'?", opts:["Educating staff about risks and safe behavior","System patching","Only managers training","Encryption training"], answerArabic:"تدريب الموظفين على المخاطر وطرق التعامل الآمن مع المعلومات.", exp1:"يقلل من أخطاء البشر مثل الوقوع في phishing.", exp2:"يجب أن يكون متعدد الوسائط ومتكرر القياس."},
+  /* 25 */ { q:"What is 'third-party risk management'?", opts:["Managing risks from external vendors and partners","Only internal monitoring","Backup of partners","Encryption partner"], answerArabic:"تقييم ومراقبة مخاطر الأمن المتأتية من جهات خارجية.", exp1:"يشمل عقود، مراجعات أمنية، ومراقبة الامتثال.", exp2:"مهم لأن اختراق الطرف الثالث قد يطالك أيضاً."},
+  /* 26 */ { q:"What is 'supply chain attack'?", opts:["Compromising a supplier to attack customers downstream","Local malware only","DNS poisoning only","Email spoofing"], answerArabic:"استهداف سلسلة التوريد لاختراق عملاء عبر مورّد أو مكوّن موثوق به.", exp1:"مثال: تحديث برمجي مُضاف إليه كود خبيث.", exp2:"يتطلب مراقبة سلامة التوريد وملفات التحقق."},
+  /* 27 */ { q:"What is 'zero trust' model?", opts:["Never trust, always verify; assume breach","Trust everyone inside network","Disable firewalls","Always VPN"], answerArabic:"نموذج يفترض عدم الثقة ويطلب التحقق من كل طلب وكيان.", exp1:"يعتمد على مصادقة صارمة، مبدأ أقل امتياز، وفصل الشبكات.", exp2:"يساهم في تقليل الوصول الجانبي للمهاجم."},
+  /* 28 */ { q:"What is 'microsegmentation'?", opts:["Fine-grained network segmentation to limit lateral movement","Big flat network","Only VLANs","Disable routing"], answerArabic:"تقسيم الشبكة لقطاعات صغيرة لمنع تحرك المهاجم داخل الشبكة.", exp1:"يُنفذ عبر سياسات تحكم على مستوى الحاويات أو المضيف.", exp2:"يعزز نموذج zero trust بتقليل سطح الهجوم."},
+  /* 29 */ { q:"What is 'container security'?", opts:["Securing container images, runtime, and orchestration","Only VM security","Only firewalls","Encryption only"], answerArabic:"تأمين الصور الحاويات (images) ووقت التشغيل ونظام الإدارة مثل Kubernetes.", exp1:"يشمل تقليل الصلاحيات، فحص الصور، وتحديثات تلقائية.", exp2:"الفهم الواضح للحوويات والسرية مهم لتقليل المخاطر."},
+  /* 30 */ { q:"What is 'cloud shared responsibility'?", opts:["Division of security tasks between provider and customer","Cloud does everything","Customer does everything","No responsibility"], answerArabic:"تقاسم المسؤوليات: يقوم الموفر ببعض الجوانب والعميل ببعضها.", exp1:"مثلاً: الموفر يؤمن البنية التحتية، والعميل يضبط الوصول والبيانات.", exp2:"فهم هذا التقسيم أساس للحماية السحابية الصحيحة."},
+  /* 31 */ { q:"What is 'IAM' (Identity and Access Management)?", opts:["Managing digital identities and their access","Only password store","Only MFA","Network monitor"], answerArabic:"إدارة الهويات الرقمية والتحكم في وصولها وحقوقها.", exp1:"يشمل provisioning، SSO، MFA، ومراجعة الصلاحيات.", exp2:"يساعد على تقليل الأخطار الناتجة عن حسابات مسروقة."},
+  /* 32 */ { q:"What is 'MFA' (Multi-Factor Authentication)?", opts:["Using two or more authentication factors","Single password","IP allowlist","Encryption only"], answerArabic:"استخدام عاملين أو أكثر للتحقق من هوية المستخدم.", exp1:"عوامل: معرفة (كلمة سر)، امتلاك (رمز)، وخصوصية (بصمة).", exp2:"يقلل بشكل كبير من نجاح هجمات credential stuffing."},
+  /* 33 */ { q:"What is 'SSO' (Single Sign-On)?", opts:["One authentication for multiple services","Multiple passwords for each app","Only local accounts","Firewall rule"], answerArabic:"مصادقة واحدة تفتح الوصول لسياق تطبيقي متعدد دون إعادة تسجيل دخول.", exp1:"يسهل الإدارة ويعزز تجربة المستخدم لكنه يحتاج مراقبة.", exp2:"يجب دمجه مع MFA وسياسات جلسات قوية."},
+  /* 34 */ { q:"What is 'log aggregation'?", opts:["Collecting logs from many sources in one place","Deleting logs","Encrypting logs only","Only network logs"], answerArabic:"جمع السجلات من مصادر متعددة في نظام مركزي للتحليل.", exp1:"يسهل البحث، التحليل، والاكتشاف السريع للحوادث.", exp2:"عادةً ما تُرسل للسِييم أو منصات المراقبة."},
+  /* 35 */ { q:"What is 'SIEM use case'?", opts:["Detecting specific threat patterns by correlating logs","Only storage","Only backup","Only configuration"], answerArabic:"حالة استخدام تجمع قواعد لاكتشاف أنماط تهديد محددة عبر ربط السجلات.", exp1:"مثال: محاولات عديدة لتسجيل الدخول متبوعة بإنشاء مستخدم.", exp2:"تُحدّث وتُصقل بمرور الوقت لتحسين الدقة."},
+  /* 36 */ { q:"What is 'false positive' in detections?", opts:["Alert indicating an attack when none occurred","Confirmed breach","Noisy log","Good alert"], answerArabic:"إنذار يدل على هجوم بينما كان النشاط مشروعاً.", exp1:"الإيجابيات الكاذبة تقلل فعالية فريق الاستجابة وتستهلك الموارد.", exp2:"تحتاج المعايرة وتحسين قواعد الكشف لتقليلها."},
+  /* 37 */ { q:"What is 'threat modeling'?", opts:["Analyzing system to identify threats and mitigations","Only patching","Only firewall rules","Only backups"], answerArabic:"تحليل النظام لتحديد التهديدات ونقاط الضعف وإجراءات التخفيف.", exp1:"يساعد في تصميم أنظمة أقل عرضة للهجوم من البداية.", exp2:"تقنيات: STRIDE، DREAD، وتقييم المخاطر."},
+  /* 38 */ { q:"What is 'attack tree'?", opts:["Diagram of attack paths and goals","Physical tree","Backup plan","Password policy"], answerArabic:"مخطط يعرض الطرق الممكنة للوصول لهدف محدد من وجهة نظر المهاجم.", exp1:"يُستخدم لتحديد نقاط الدفاع الأكثر أهمية.", exp2:"يُبسط فهم السيناريوهات ويُساعد في تخطيط المضاربات."},
+  /* 39 */ { q:"What is 'business impact analysis (BIA)'?", opts:["Assessing impact of disruptions on business functions","Only backups","Only security scans","Only encryption"], answerArabic:"تقييم أثر انقطاع الخدمات على عمليات المؤسسة.", exp1:"يساعد في ترتيب أولويات استعادة الأنظمة والموارد.", exp2:"يوفر معايير RTO وRPO لتخطيط DR/BCP."},
+  /* 40 */ { q:"What is 'KPIs for security operations'?", opts:["Metrics to measure performance (MTTR, MTTD, etc.)","Only CPU usage","Only disk space","Only uptime"], answerArabic:"مؤشرات لقياس أداء الأمن مثل زمن الاكتشاف والإصلاح.", exp1:"MTTD = Mean Time To Detect, MTTR = Mean Time To Recover.", exp2:"تُستخدم لتحسين عمليات الاستجابة وتقارير الإدارة."},
+  /* 41 */ { q:"What is 'privacy by design'?", opts:["Embedding privacy into system design from start","Only encryption","Only legal team","Optional feature"], answerArabic:"دمج الحماية الخصوصية في تصميم النظام منذ البداية.", exp1:"يتضمن تقليل البيانات، التشفير والتخزين الآمن.", exp2:"يساعد الالتزام باللوائح مثل GDPR ويقلل المخاطر القانونية."},
+  /* 42 */ { q:"What is 'data classification'?", opts:["Categorizing data by sensitivity and handling rules","Only backups","Only encryption","Only logs"], answerArabic:"تصنيف البيانات حسب الحساسية لتطبيق سياسات حماية مناسبة.", exp1:"يسهل التحكم بالوصول وتحديد متطلبات الاحتفاظ والتشفير.", exp2:"يساعد في احترام الخصوصية وتقليل الاستخدام المفرط للبيانات."},
+  /* 43 */ { q:"What is 'consent management'?", opts:["Tracking and honoring user consent for data use","Only passwords","Only backups","Only logs"], answerArabic:"إدارة موافقة المستخدمين على استخدام بياناتهم والاحتفاظ بها.", exp1:"مهم للامتثال القانوني وإظهار الشفافية للزبائن.", exp2:"يشمل آليات السحب والتعديل والاحتفاظ بالتوثيق."},
+  /* 44 */ { q:"What is 'encryption key rotation'?", opts:["Regularly changing keys to limit exposure","Never change keys","Store keys in plain text","Only change passwords"], answerArabic:"تبديل المفاتيح بشكل منتظم لتقليل المخاطر عند التسرب.", exp1:"يسهل تقليل أثر تسريب مفتاح قديم.", exp2:"يتطلب آليات نقل وموضوعية للاحتفاظ بإمكانية فك البيانات القديمة."},
+  /* 45 */ { q:"What is 'secure SDLC' (Software Development Life Cycle)?", opts:["Integrating security throughout development lifecycle","Only final testing","Only QA","Only performance"], answerArabic:"دمج الممارسات الأمنية في كل مراحل تطوير البرمجيات.", exp1:"يشمل تحليل المتطلبات، تصميم آمن، اختبارات أمنية، ونشر مراقب.", exp2:"يقلل الثغرات ويخفض تكلفة إصلاحها لاحقاً."},
+  /* 46 */ { q:"What is 'static application security testing (SAST)'?", opts:["Analyzing source code for vulnerabilities without running it","Running app in VM","Network scan","Disk check"], answerArabic:"فحص الشيفرة الثابتة لاكتشاف الثغرات قبل التشغيل.", exp1:"يكشف أخطاء برمجية مثل حقن SQL أو سوء إدارة الذاكرة.", exp2:"يُستخدم مبكراً في SDLC لتحسين جودة الكود."},
+  /* 47 */ { q:"What is 'dynamic application security testing (DAST)'?", opts:["Testing running application from outside to find issues","Only code review","Only unit tests","Only integration tests"], answerArabic:"اختبار التطبيق أثناء التشغيل لمحاكاة هجمات حقيقية.", exp1:"يكشف سلوك التطبيق والواجهات المعرضة.", exp2:"يكمل SAST ويعطي رؤية للسلوك الفعلي."},
+  /* 48 */ { q:"What is 'SCA' (Software Composition Analysis)?", opts:["Analyzing open-source components for vulnerabilities","Only encryption","Only patching","Only QA"], answerArabic:"تحليل مكونات الطرف الثالث والمكتبات المفتوحة لاكتشاف ثغرات وترخيص.", exp1:"يكشف استخدام مكونات قديمة أو معرضة ولهذا يجب التحديث.", exp2:"مهم لتقليل مخاطر سلاسل التوريد البرمجية."},
+  /* 49 */ { q:"What is 'continuous monitoring'?", opts:["Ongoing surveillance of systems to detect issues early","One-time audit","Only nightly scans","Only weekly reports"], answerArabic:"مراقبة مستمرة للأنظمة لاكتشاف الحوادث مبكراً والتعامل معها.", exp1:"يتضمن جمع السجلات، الإنذارات الآنية، وتحليل السلوك.", exp2:"يساعد في تقليل الوقت بين التسلل والاكتشاف."}
+];
+
+/* State and displayOrder (same logic as previous chapters) */
+const totalQuestions = questions.length;
+let state = new Array(totalQuestions).fill(null).map(()=>({ selIndex:null, revealed:false, scored:false }));
+let displayOrder = Array.from({length: totalQuestions}, (_,i)=>i);
+const quizList = document.getElementById('quizList');
+
+function renderQuestionsByOrder(){
+  quizList.innerHTML = '';
+  displayOrder.forEach((origIdx, displayPos) => {
+    const it = questions[origIdx];
+    const div = document.createElement('div');
+    div.className = 'qcard';
+    div.dataset.orig = origIdx;
+    div.innerHTML = `
+      <div class="qhead"><div class="qnum">Q${displayPos+1}</div><div class="muted">سؤال رقم ${displayPos+1}</div></div>
+      <div class="qtext">${it.q}</div>
+      <div class="opts" id="opts-${origIdx}">
+        ${it.opts.map((o,i)=>`<div class="opt" data-qorig="${origIdx}" data-i="${i}"><strong>${String.fromCharCode(65+i)}.</strong> ${o}</div>`).join('')}
+      </div>
+      <div class="actions">
+        <button class="btn revealBtn" data-qorig="${origIdx}">أظهر الإجابة</button>
+        <button class="btn secondary explainBtn" data-qorig="${origIdx}">عرض الشرحين</button>
+      </div>
+      <div class="reveal" id="reveal-${origIdx}">
+        <div><strong>الإجابة (بالعربية):</strong> <span id="ans-${origIdx}"></span></div>
+        <div class="explain" id="exp1-${origIdx}"></div>
+        <div class="explain" id="exp2-${origIdx}"></div>
+      </div>
+    `;
+    quizList.appendChild(div);
+
+    // restore previous state if any
+    const sel = state[origIdx].selIndex;
+    if(sel !== null){
+      const optsContainer = div.querySelector('.opts');
+      const chosenEl = optsContainer.querySelector(`.opt[data-i="${sel}"]`);
+      if(chosenEl) chosenEl.classList.add('selected');
+      if(state[origIdx].scored){
+        const correctIdx = getCorrectIndex(origIdx);
+        if(chosenEl){
+          if(Number(chosenEl.dataset.i) === correctIdx) chosenEl.classList.add('correct');
+          else chosenEl.classList.add('wrong');
+        }
+        const correctEl = optsContainer.querySelector(`.opt[data-i="${correctIdx}"]`);
+        if(correctEl) correctEl.classList.add('correct');
+        optsContainer.querySelectorAll('.opt').forEach(el => el.style.pointerEvents = 'none');
+        if(state[origIdx].revealed) showAnswer(origIdx);
+      }
+    }
+  });
+}
+
+/* initial render */
+renderQuestionsByOrder();
+
+/* default correct index (all A) - adjust if needed */
+function getCorrectIndex(origQuestionIndex){
+  return 0;
+}
+
+/* event delegation */
+quizList.addEventListener('click', function(e){
+  const opt = e.target.closest('.opt');
+  if(opt){
+    const orig = parseInt(opt.dataset.qorig,10);
+    const chosen = parseInt(opt.dataset.i,10);
+    handleSelection(orig, chosen, opt.closest('.qcard'));
+    return;
+  }
+  const revealBtn = e.target.closest('.revealBtn');
+  if(revealBtn){
+    const orig = parseInt(revealBtn.dataset.qorig,10);
+    showAnswer(orig);
+    return;
+  }
+  const explainBtn = e.target.closest('.explainBtn');
+  if(explainBtn){
+    const orig = parseInt(explainBtn.dataset.qorig,10);
+    showAnswer(orig);
+    return;
+  }
+});
+
+function handleSelection(origIndex, chosenIndex, cardElement){
+  if(state[origIndex].scored) return;
+  const optsContainer = cardElement.querySelector('.opts');
+  optsContainer.querySelectorAll('.opt').forEach(el=>el.classList.remove('selected'));
+  const chosenEl = optsContainer.querySelector(`.opt[data-i="${chosenIndex}"]`);
+  if(chosenEl) chosenEl.classList.add('selected');
+  const correctIdx = getCorrectIndex(origIndex);
+  if(chosenIndex === correctIdx){
+    if(chosenEl) chosenEl.classList.add('correct');
+    state[origIndex].selIndex = chosenIndex;
+    state[origIndex].scored = true;
+    showAnswer(origIndex);
+  } else {
+    if(chosenEl) chosenEl.classList.add('wrong');
+    const correctEl = optsContainer.querySelector(`.opt[data-i="${correctIdx}"]`);
+    if(correctEl) correctEl.classList.add('correct');
+    state[origIndex].selIndex = chosenIndex;
+    state[origIndex].scored = true;
+    showAnswer(origIndex);
+  }
+  optsContainer.querySelectorAll('.opt').forEach(el => el.style.pointerEvents = 'none');
+}
+
+function showAnswer(origIndex){
+  const rdiv = document.getElementById(`reveal-${origIndex}`);
+  if(!rdiv) return;
+  const item = questions[origIndex];
+  document.getElementById(`ans-${origIndex}`).textContent = item.answerArabic;
+  document.getElementById(`exp1-${origIndex}`).textContent = "شرح 1: " + item.exp1;
+  document.getElementById(`exp2-${origIndex}`).textContent = "شرح 2: " + item.exp2;
+  rdiv.style.display = 'block';
+  state[origIndex].revealed = true;
+}
+
+/* shuffle / showAll / search */
+document.getElementById('shuffle').addEventListener('click', function(){
+  for(let i=displayOrder.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [displayOrder[i], displayOrder[j]] = [displayOrder[j], displayOrder[i]];
+  }
+  renderQuestionsByOrder();
+});
+document.getElementById('showAll').addEventListener('click', function(){
+  displayOrder = Array.from({length: totalQuestions}, (_,i)=>i);
+  renderQuestionsByOrder();
+});
+document.getElementById('search').addEventListener('input', function(){
+  const s = this.value.trim().toLowerCase();
+  if(!s){ displayOrder = Array.from({length: totalQuestions}, (_,i)=>i); renderQuestionsByOrder(); return; }
+  const filtered = [];
+  for(let i=0;i<questions.length;i++){
+    const qLower = questions[i].q.toLowerCase();
+    const optsJoined = questions[i].opts.join(' ').toLowerCase();
+    if(qLower.includes(s) || optsJoined.includes(s)) filtered.push(i);
+  }
+  displayOrder = filtered;
+  renderQuestionsByOrder();
+});
+
+/* finish / reset */
+document.getElementById('finishBtn').addEventListener('click', function(){
+  let correct = 0;
+  for(let i=0;i<totalQuestions;i++){
+    const sel = state[i].selIndex;
+    if(sel !== null && sel === getCorrectIndex(i)) correct++;
+  }
+  const resultText = document.getElementById('resultText');
+  resultText.innerHTML = `حصلت على <strong>${correct}</strong> من <strong>${totalQuestions}</strong> نقطة.`;
+  const percent = (correct/totalQuestions)*100;
+  const advice = document.getElementById('advice');
+  if(percent>=85) advice.textContent = "🔥 ممتاز!";
+  else if(percent>=60) advice.textContent = "✨ جيد!";
+  else advice.textContent = "⚠️ بحاجة لتحسين.";
+});
+document.getElementById('resetBtn').addEventListener('click', function(){
+  state = new Array(totalQuestions).fill(null).map(()=>({ selIndex:null, revealed:false, scored:false }));
+  displayOrder = Array.from({length: totalQuestions}, (_,i)=>i);
+  renderQuestionsByOrder();
+  document.getElementById('resultText').textContent = 'لم يتم احتساب النتيجة بعد.';
+  document.getElementById('advice').textContent = '';
+});
+
+</script>
+</body>
+</html>

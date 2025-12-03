@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>تعريفات — Chapters 2 & 3 (Cybersecurity Glossary)</title>
+<style>
+  :root{
+    --bg1:#071821; --neon:#00eaff; --accent:#7c3aed; --muted:#9fb3c8; --card-shadow: 0 8px 40px rgba(2,8,20,0.6);
+  }
+  html,body{height:100%;margin:0;font-family:"Cairo",system-ui,Segoe UI,Roboto,Arial;background:radial-gradient(circle at 10% 10%, #04202a 0%, #000814 60%);color:#e6f6ff}
+  .wrap{max-width:1100px;margin:0 auto;padding:18px}
+  header{padding:35px 20px;margin:0 -20px 35px -20px;background:linear-gradient(135deg, rgba(0,234,255,0.12) 0%, rgba(124,58,237,0.08) 100%);border-bottom:3px solid var(--neon);box-shadow:0 6px 30px rgba(0,234,255,0.15);display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap}
+  header h1{margin:0 0 10px 0;font-size:26px;color:var(--neon);text-shadow:0 0 20px rgba(0,234,255,0.4);font-weight:700;letter-spacing:0.5px}
+  header p{margin:0;font-size:14px;line-height:1.5}
+  .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); padding:16px;border-radius:14px;box-shadow:var(--card-shadow);border:1px solid rgba(255,255,255,0.03)}
+  .controls{display:flex;gap:8px;align-items:center;margin:14px 0}
+  .search{flex:1;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:var(--neon)}
+  .btn{background:var(--neon);color:#002;border:none;padding:9px 12px;border-radius:10px;font-weight:700;cursor:pointer}
+  .grid{display:grid;grid-template-columns:1fr;gap:12px;margin-top:10px}
+  @media(min-width:880px){ .grid{grid-template-columns:1fr 1fr} }
+  .term{padding:12px;border-radius:12px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.02)}
+  .term h3{margin:0;color:var(--accent)}
+  .term p{margin:6px 0;color:#dff6ff}
+  .muted{color:var(--muted);font-size:13px}
+  .toplinks{display:flex;gap:8px;align-items:center}
+  a.link{color:var(--neon);text-decoration:none;font-weight:700;border:1px solid rgba(255,255,255,0.04);padding:6px 10px;border-radius:8px;background:rgba(0,234,255,0.03)}
+  .print{background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--neon);padding:8px;border-radius:8px;cursor:pointer}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>تعريفات الفصل 2 & 3</h1>
+      <p>إعداد: <strong>محمد إسلام</strong></p>
+      <p class="muted">تعريفات وشرح بالعربية. <a class="link" href="main.html">الصفحة الرئيسية</a> — <a class="link" href="chapter01.html">الفصل 1</a></p>
+    </div>
+  </header>
+
+  <div class="card">
+    <div class="controls">
+      <input id="search" class="search" placeholder="ابحث عن مصطلح (مثال: CSRF, TLS, DLP, HSM)..." />
+      <button id="showAll" class="btn">عرض الكل</button>
+    </div>
+
+    <div id="list" class="grid"></div>
+
+    <div style="margin-top:12px;color:var(--muted);font-size:13px">ملاحظة: المصطلحات مرتّبة لتغطية أهم المفاهيم في الشابتر 2 و 3. تقدر تضيف مصطلحات جديدة أو تعدّل التعريفات في الملف بسهولة.</div>
+  </div>
+</div>
+
+<script>
+const glossary = [
+  {term:"Session hijacking — اختطاف الجلسة", def:"استيلاء المهاجم على جلسة مستخدم نشطة ليقوم بعمليات نيابة عنه.", detail:"يحدث عبر سرقة معرف الجلسة (cookie/session token). الحماية: TLS، HTTPOnly cookies، إدارة جلسات صارمة."},
+  {term:"HSTS — HTTP Strict Transport Security", def:"رأس (header) يجبر المتصفح على استخدام HTTPS فقط.", detail:"يمنع هجمات MITM الناتجة عن نزول مستخدم عبر HTTP بدل HTTPS."},
+  {term:"CSP — Content Security Policy", def:"سياسة تحدد مصادر الموارد المسموح تحميلها على الصفحة.", detail:"أداة فعّالة لتخفيف مخاطر XSS عن طريق حصر النطاقات والأنواع المسموحة."},
+  {term:"Clickjacking", def:"تشغيل صفحة داخل إطار لإخفاء أزرار مضمنة وخداع النقرات.", detail:"الوقاية: X-Frame-Options وCSP frame-ancestors."},
+  {term:"OAuth", def:"آلية تفويض تسمح لتطبيق بمنح صلاحيات محدودة لتطبيق آخر بدون مشاركة كلمة المرور.", detail:"يستخدم توكنات (access tokens) ويُستعمل في تسجيل الدخول عبر خدمات طرف ثالث."},
+  {term:"Open Redirect", def:"ثغرة تسمح بإعادة توجيه المستخدمين لمواقع خارجية غير مرجّحة.", detail:"ممكن استغلالها لخداع المستخدمين وهجمات phishing؛ الحل: التحقق من الروابط أو استخدام whitelist."},
+  {term:"CSRF — Cross-Site Request Forgery", def:"إجبار المتصفح على إرسال طلب نيابة عن المستخدم دون إرادته.", detail:"الحماية: رموز CSRF، SameSite cookies، والتحقق من Referer/Origin."},
+  {term:"SameSite cookie", def:"خاصية في الكوكي تحدد متى تُرسل عبر الطلبات العابرة للمواقع.", detail:"قيم مثل Strict وLax تقلل إرسال الكوكي في سيناريوهات CSRF."},
+  {term:"Security through obscurity", def:"الاعتماد على الإخفاء كآلية أمان — غير موصى به وحده.", detail:"يجب دمجها مع ضوابط تقنية فعلية مثل التشفير والتصحيح."},
+  {term:"Rate limiting", def:"تقييد عدد الطلبات من مصدر معين لمنع الهجمات.", detail:"مفيد ضد brute-force وDoS وcredential stuffing."},
+  {term:"WAF — Web Application Firewall", def:"جدار حماية مخصص لتطبيقات الويب يكشف ويمنع هجمات شائعة.", detail:"يحجب SQLi وXSS ويمكن أن يعمل كطبقة دفاع مؤقتة أثناء التصحيح."},
+  {term:"Input validation — تحقق المدخلات", def:"التحقق من صحة وتنقية مدخلات المستخدم لمنع الحقن.", detail:"استخدم white-list والتأكد من نوع وطول النمط قبل المعالجة."},
+  {term:"Output encoding — ترميز المخرجات", def:"ترميز المحتوى المعروض لتجنب تنفيذ السكربت (XSS).", detail:"تحويل <,> وغيرها إلى كيانات HTML عند العرض."},
+  {term:"Password policy — سياسة كلمات السر", def:"قواعد لطول وتعقيد وتدوير كلمات السر.", detail:"من الأفضل استخدام MFA بدلاً من تغييرات متكررة فقط."},
+  {term:"PAM — Privileged Access Management", def:"إدارة وحماية حسابات الصلاحيات العليا ومراجعتها.", detail:"يشمل وصول مؤقت، تسجيل الجلسات، ومراجعات دورية."},
+  {term:"Network segmentation — تقسيم الشبكة", def:"تقسيم الشبكة إلى مناطق لتقليل حركة المهاجم.", detail:"يُطبّق عبر VLANs وfirewalls داخلية وسياسات الوصول."},
+  {term:"Data exfiltration — تسريب البيانات", def:"نقل بيانات بشكل غير مصرح من داخل النظام.", detail:"مراقبة الشبكة وDLP تساعد على كشف ومنع ذلك."},
+  {term:"DLP — Data Loss Prevention", def:"أدوات وسياسات لكشف ومنع تسرب البيانات الحساسة.", detail:"تستخدم قواعد وأنماط لاكتشاف الملفات الحساسة ومنع النقل."},
+  {term:"MITRE ATT&CK", def:"قاعدة معرفة لتقنيات وأساليب المهاجمين وسلوكهم.", detail:"تساعد فرق الأمن في تحليل الحوادث وبناء دفاعات مبنية على سلوك الخصم."},
+  {term:"Threat intelligence", def:"جمع وتحليل معلومات حول التهديدات لتوجيه الدفاع.", detail:"مصدر لاتخاذ قرارات أمنية مثل تحديثات الحظر وتوجيه الاستجابة."},
+  {term:"SOC — Security Operations Center", def:"مركز أو فريق يراقب الحوادث ويستجيب لها 24/7.", detail:"يعمل مع SIEM ومشغّلي أمن لتحليل وإنذار الحوادث."},
+  {term:"Forensics — التحليل الجنائي الرقمي", def:"تحليل الحوادث والبحث عن الأدلة الرقمية.", detail:"يتطلب إجراءات تحفظ الأدلة وسلاسل حفظ قانونية."},
+  {term:"IoC — Indicator of Compromise", def:"دلائل تشير إلى وجود اختراق (IPs, file hashes, domain names).", detail:"تستخدم للبحث والكشف السريع عن الحوادث المشابهة."},
+  {term:"Beaconing", def:"اتصال دوري للبرمجية الخبيثة بخادم C2.", detail:"كشف الأنماط الدورية يساعد على تحديد وجود C2."},
+  {term:"C2 — Command & Control", def:"خادم المهاجم الذي يتحكم بالبرمجيات الخبيثة.", detail:"قطع أو حجب C2 يحد من قدرة العينة على تنفيذ أوامر جديدة."},
+  {term:"Memory forensics", def:"تحليل الذاكرة (RAM) للكشف عن برمجيات تعمل في الذاكرة أو أسرار.", detail:"ضروري لاكتشاف fileless malware وسلوكيات مؤقتة."},
+  {term:"YARA", def:"أداة وقواعد للتعرف على عينات البرمجيات الخبيثة عبر أنماط.", detail:"تستخدم لتصنيف العينات والبحث في مجموعات بيانات كبيرة."},
+  {term:"Entropy analysis", def:"قياس عشوائية الملف للكشف عن تغليف/تشفير/ضغط.", detail:"قيمة عالية غالباً تدل على تشفير أو packing."},
+  {term:"Packer — أداة التغليف", def:"أداة تغلف/تضغط الملف لتصعيب التحليل واخفاء التوقيعات.", detail:"يجب فك التغليف (unpacking) لتحليل المحتوى الحقيقي."},
+  {term:"Obfuscation — التمويه", def:"إخفاء منطق البرنامج لتمنع فهمه السهل.", detail:"يتضمن تغيير الأسماء، تشفير أجزاء من الكود، أو استخدام تقنيات ديناميكية."},
+  {term:"API hooking", def:"اعتراض استدعاءات واجهات النظام لتغيير السلوك أو إخفاء نشاط.", detail:"يستخدمه rootkits وأدوات خبيثة لإخفاء العمليات."},
+  {term:"Sandbox evasion", def:"تقنيات تكشف بيئة الساندبوكس وتغيّر السلوك لتجنب الكشف.", detail:"المعايرة لتحسين الساندبوكس تشمل محاكاة سلوك المستخدم وبيئة حقيقية."},
+  {term:"Polymorphic malware", def:"برمجيات تغير الشيفرة الخارجية لتجاوز التوقيعات.", detail:"تكشف عبر تحليل السلوك بدل الاعتماد على توقيعات ثابتة."},
+  {term:"Metasploit", def:"إطار عمل لاختبار الاختراق يحتوي على استغلالات وأدوات.", detail:"يستخدمه الباحثون والهاكرز؛ مهم لفهم أساليب الاستغلال."},
+  {term:"Reverse engineering — الهندسة العكسية", def:"تحليل الكود المترجم لفهم آلية عمل البرنامج.", detail:"يتطلب أدوات مثل disassemblers وdebuggers."},
+  {term:"Debugger — أداة التتبع", def:"أداة تنفيذ خطوة بخطوة ومراقبة متغيرات البرنامج.", detail:"مهمة في التحليل الديناميكي وتتبع السلوك."},
+  {term:"Honeypot — نظام الطُعم", def:"بيئة مصممة لجذب المهاجمين وتحليل أساليبهم.", detail:"تساعد في جمع عينات وتقنيات الهجوم دون تعريض البنية الفعلية."},
+  {term:"Tokenization", def:"استبدال البيانات الحساسة بتوكنات لا قيمة لها خارج النظام.", detail:"يسهل الامتثال ويقلل خطر تعرّض البيانات الحقيقية."},
+  {term:"HSM — Hardware Security Module", def:"جهاز لتخزين المفاتيح وتنفيذ عمليات التشفير بأمان.", detail:"يمنع استخراج المفاتيح ويزيد من مستوى الأمان للمفاتيح الحساسة."},
+  {term:"Data at rest / in transit", def:"تشفير البيانات المخزنة مقابل المشفّرة أثناء النقل.", detail:"كلا النوعين مهمان: الأول يحمي الأقراص، والثاني يحمي الاتصال (TLS/VPN)."},
+  {term:"Key exchange / PFS", def:"تبادل آمن للمفاتيح وميزة Perfect Forward Secrecy.", detail:"PFS يستخدم مفاتيح مؤقتة بحيث لا يكشف عنها تسريب مفتاح لاحقاً جلسات سابقة."},
+  {term:"PKI / Digital Signatures", def:"بنية الشهادات والتوقيع الرقمي لإثبات الهوية وسلامة المحتوى.", detail:"CA وOCSP وCRL هي مكوّنات مهمة في PKI."},
+  {term:"RBAC / ABAC", def:"نماذج التحكم في الوصول: بالوظائف أو بالسمات.", detail:"RBAC أبسط للإدارة، ABAC أكثر مرونة لكنه أعقد."},
+  {term:"Vulnerability assessment / Penetration test", def:"تقييم وتحديد الثغرات مقابل اختبار اختراقي فعّال.", detail:"VA يحدد الثغرات؛ pen-test يحاول استغلالها عملياً."},
+  {term:"Zero Trust / Microsegmentation", def:"مبدأ عدم الثقة وافتراض الاختراق وتقسيم دقيق للشبكة.", detail:"يتطلب تحقق قوي وسياسات وصول دقيقة وتقليل الحقوق الافتراضية."},
+  {term:"Cloud shared responsibility", def:"تقاسم مسؤوليات الأمان بين مزود الخدمة والعميل.", detail:"فهم هذا الفصل حاسم لعدم ترك ثغرات بسبب افتراض أن المزود يتكفل بكل شيء."}
+];
+
+const listEl = document.getElementById('list');
+
+function renderTerms(arr){
+  listEl.innerHTML = '';
+  arr.forEach(t=>{
+    const d = document.createElement('div');
+    d.className = 'term';
+    d.innerHTML = `<h3>${t.term}</h3><p><strong>تعريف:</strong> ${t.def}</p><p class="muted"><strong>تفصيل:</strong> ${t.detail}</p>`;
+    listEl.appendChild(d);
+  });
+}
+
+renderTerms(glossary);
+
+document.getElementById('search').addEventListener('input', function(){
+  const s = this.value.trim().toLowerCase();
+  if(!s){ renderTerms(glossary); return; }
+  const filtered = glossary.filter(t => (t.term.toLowerCase().includes(s) || t.def.toLowerCase().includes(s) || t.detail.toLowerCase().includes(s)));
+  renderTerms(filtered);
+});
+
+document.getElementById('showAll').addEventListener('click', function(){ renderTerms(glossary); });
+
+</script>
+</body>
+</html>

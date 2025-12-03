@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Chapter 2 — Cybersecurity Quiz (50 Questions)</title>
+<style>
+  :root{
+    --neon:#00eaff; --accent:#7c3aed; --muted:#9fb3c8; --good:#16a34a; --bad:#ef4444;
+    --card-shadow: 0 8px 40px rgba(2,8,20,0.6);
+  }
+  html,body{height:100%;margin:0;font-family:"Cairo",sans-serif;background:radial-gradient(circle at 10% 10%, #04202a 0%, #000814 60%);color:#e6f6ff}
+  .wrap{max-width:1100px;margin:0 auto;padding:18px}
+  header{padding:35px 20px;margin:0 -20px 35px -20px;background:linear-gradient(135deg, rgba(0,234,255,0.12) 0%, rgba(124,58,237,0.08) 100%);border-bottom:3px solid var(--neon);box-shadow:0 6px 30px rgba(0,234,255,0.15);display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap}
+  header h1{margin:0 0 10px 0;font-size:26px;color:var(--neon);text-shadow:0 0 20px rgba(0,234,255,0.4);font-weight:700;letter-spacing:0.5px}
+  header p{margin:0;font-size:14px;line-height:1.5}
+  header .nav-links{display:flex;gap:6px;flex-wrap:wrap}
+  .layout{display:grid;grid-template-columns:320px 1fr;gap:18px;margin-top:18px}
+  @media(max-width:920px){ .layout{grid-template-columns:1fr} }
+  .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); padding:16px;border-radius:14px;box-shadow:var(--card-shadow);border:1px solid rgba(255,255,255,0.03)}
+  .muted{color:var(--muted)}
+  aside h3{color:var(--neon);margin-top:0}
+  aside ul{color:var(--muted);line-height:1.6}
+  .score-wrap h2{color:var(--neon);margin-top:0}
+  #resultText{color:#dff6ff}
+  .btn-row{margin-top:8px;display:flex;gap:8px}
+  #advice{margin-top:8px;color:var(--muted)}
+  .controls{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
+  .search{flex:1;padding:8px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:var(--neon)}
+  .btn{background:var(--neon);color:#002;border:none;padding:10px 12px;border-radius:10px;font-weight:700;cursor:pointer}
+  .btn.secondary{background:transparent;color:var(--neon);border:1px solid rgba(255,255,255,0.04)}
+  .qcard{margin-bottom:12px;padding:14px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));border:1px solid rgba(255,255,255,0.02)}
+  .qtext{font-weight:700;color:#c9f4ff;margin-top:8px}
+  .opts{margin-top:10px;display:flex;flex-direction:column;gap:8px}
+  .opt{padding:10px;border-radius:10px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.02);cursor:pointer;transition:all .15s}
+  .opt.correct{background:rgba(22,163,74,0.12);border-color:rgba(22,163,74,0.4)}
+  .opt.wrong{background:rgba(239,68,68,0.08);border-color:rgba(239,68,68,0.35)}
+  .reveal{padding:10px;border-radius:10px;background:linear-gradient(90deg, rgba(0,234,255,0.04), rgba(124,58,237,0.03));display:none}
+  .score-wrap{margin-top:16px;padding:14px;border-radius:12px;background:linear-gradient(180deg, rgba(124,58,237,0.04), rgba(0,0,0,0.2));border:1px solid rgba(255,255,255,0.02)}
+  a.link{color:var(--neon);text-decoration:none;font-weight:700;border:1px solid rgba(255,255,255,0.04);padding:6px 10px;border-radius:8px;background:rgba(0,234,255,0.03)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>Chapter 2 — Cybersecurity QCM (50 Questions)</h1>
+      <p>إعداد: <strong>محمد إسلام</strong></p>
+      <p class="muted">أسئلة+أجوبة بالعربية — الفصل 2 من 3. <a class="link" href="definitions.html">التعريفات</a> — <a class="link" href="chapter01.html">العودة للفصل 1</a> — <a class="link" href="main.html">الصفحة الرئيسية</a></p>
+    </div>
+  </header>
+
+  <div class="layout">
+    <aside class="card">
+      <h3 style="color:var(--neon)">نصائح قبل الاختبار</h3>
+      <ul style="color:var(--muted);line-height:1.6">
+        <li>اقرأ السؤال جيداً ثم اختر</li>
+        <li>بعد الاختيار ستظهر الإجابة والشرح بالعربية فوراً</li>
+        <li>لا يمكن تغيير الاختيار بعد تسجيله</li>
+      </ul>
+    </aside>
+
+    <main>
+      <div class="card">
+        <div class="controls">
+          <input id="search" class="search" placeholder="ابحث عن سؤال أو خيار..." />
+          <button id="shuffle" class="btn secondary">خلط</button>
+          <button id="showAll" class="btn secondary">عرض الكل</button>
+        </div>
+
+        <div id="quizList"></div>
+
+        <div class="score-wrap">
+          <h2 style="color:var(--neon)">النتيجة</h2>
+          <div id="resultText" style="color:#dff6ff">لم يتم احتساب النتيجة بعد.</div>
+          <div style="margin-top:8px;display:flex;gap:8px">
+            <button id="finishBtn" class="btn">إنهاء وحساب النتيجة</button>
+            <button id="resetBtn" class="btn secondary">إعادة تعيين</button>
+          </div>
+          <div id="advice" style="margin-top:8px;color:var(--muted)"></div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+</div>
+
+<script>
+/* Chapter 2 dataset (50 questions) */
+const questions = [
+  /* 0 */ { q:"What is 'session hijacking'?", opts:["Stealing active session to impersonate user","Encrypting session","Clearing cookies","Updating session timeout"], answerArabic:"اختطاف جلسة نشطة لاستخدامها كهوية الضحية.", exp1:"المهاجم يحصل على معرف الجلسة ويستخدمه للدخول بدل الضحية.", exp2:"يمكن الحماية بتجديد الجلسة، HTTPOnly cookies، TLS."},
+  /* 1 */ { q:"What is 'HTTP Strict Transport Security (HSTS)'?", opts:["Force HTTPS connections","Block cookies","Rate limit requests","Cache pages"], answerArabic:"فرض استخدام HTTPS وعدم قبول اتصالات HTTP.", exp1:"يمنع هجمات MITM عبر إجبار المتصفح على استخدام TLS.", exp2:"يُفعّل عبر هيدر HSTS من الخادم."},
+  /* 2 */ { q:"What is 'Content Security Policy (CSP)'?", opts:["Browser policy to limit resources (XSS mitigation)","A firewall rule","DNS setting","Email policy"], answerArabic:"سياسة تحدد الموارد المسموح تحميلها لتقليل XSS.", exp1:"يمكن منع تنفيذ سكربتات خارجية أو تحميل صور من نطاقات غير موثوقة.", exp2:"تعريف CSP يقلل من نطاق هجمات الحقن على المتصفح."},
+  /* 3 */ { q:"What is 'Clickjacking'?", opts:["Hiding UI to trick clicks","Password brute force","ARP spoofing","SQL patch"], answerArabic:"إخفاء عناصر واجهة لتضليل المستخدم والنقر على أزرار خفية.", exp1:"الهجوم يضمن تحميل الصفحة داخل iframe ويغري المستخدم.", exp2:"الحماية: X-Frame-Options وCSP frame-ancestors."},
+  /* 4 */ { q:"What is 'OAuth' primarily for?", opts:["Delegated access (authorization)","Encryption algorithm","Hashing function","Network scanner"], answerArabic:"آلية للسماح بتفويض الوصول بين التطبيقات بدون مشاركة كلمة السر.", exp1:"يوفر صلاحيات محدودة لتطبيقات طرف ثالث (tokens).", exp2:"يستخدم في تسجيل الدخول عبر خدمات (Login with...)."},
+  /* 5 */ { q:"What is 'Open Redirect' vulnerability?", opts:["Redirecting to attacker site via unvalidated URL","Hiding logs","Encrypting redirect","Blocking redirects"], answerArabic:"إعادة توجيه المستخدم لمواقع خارجية عبر مدخلات غير محمية.", exp1:"تستخدم لخداع المستخدم لإعطائه بيانات أو لعمل phishing.", exp2:"التحقق من النطاقات أو استخدام عناوين بيضاء يمنعها."},
+  /* 6 */ { q:"What is 'Cross-Site Request Forgery (CSRF)'?", opts:["Forcing user browser to perform actions unknowingly","XSS variant","DNS attack","Port scan"], answerArabic:"إجبار متصفح الضحية على تنفيذ إجراءات باسم المستخدم دون علمه.", exp1:"يحدث عندما يثق الموقع في الكوكيز ولا يتحقق من مصدر الطلب.", exp2:"الحماية: tokens مضمنة، SameSite cookies، تحقق مرجعي."},
+  /* 7 */ { q:"What is 'SameSite cookie' attribute?", opts:["Cookie attribute to mitigate CSRF","Hash algorithm","Session timeout","Proxy header"], answerArabic:"خاصية تحدد متى تُرسل الكوكي للطلبات العابرة للمواقع لتقليل CSRF.", exp1:"قيمة 'Strict' تمنع الإرسال عبر روابط خارجية.", exp2:"التعيين الصحيح يحسّن أمان الجلسات."},
+  /* 8 */ { q:"What is 'Security through obscurity'?", opts:["Relying on secrecy of design as defense (not recommended)","Strong encryption","Open source method","TLS config"], answerArabic:"الاعتماد على إخفاء التصميم أو التفاصيل كوسيلة أمان — غير كافية.", exp1:"لا تعد بديلاً عن ضوابط حقيقية، لأن الكشف سيؤدي لاختراق سهل.", exp2:"الأفضل مزيج من ضوابط تقنية وإجراءات إدارية."},
+  /* 9 */ { q:"What is 'Rate limiting' used to prevent?", opts:["Brute force and DoS","XSS","DNS poisoning","Drive-by download"], answerArabic:"الحد من عدد الطلبات لمنع التخمين والهجمات الحجبية.", exp1:"يقلل الضغط على السيرفر ويبطئ محاولات القوة الغاشمة.", exp2:"يمكن تطبيقه حسب IP أو المستخدم أو الجلسة."},
+  /* 10 */ { q:"What is 'WAF' (Web Application Firewall)?", opts:["Firewall specialized for web apps","Network switch","Antivirus UI","Backup tool"], answerArabic:"جدار حماية خاص بتطبيقات الويب يحجب هجمات شائعة.", exp1:"يمكن أن يحجب هجمات SQLi وXSS ويحسن المراقبة.", exp2:"يجب تكوينه بعناية لتقليل الإيجابيات الكاذبة."},
+  /* 11 */ { q:"What is 'Input validation'?", opts:["Checking and sanitizing user input","Encrypting inputs","Blocking input fields","Logging only"], answerArabic:"التحقق وتنقية المدخلات لمنع الحقن وأنواع الهجمات الأخرى.", exp1:"يجب استخدام قواعد صارمة لكل نوع من البيانات.", exp2:"استخدام white-list أفضل من black-list."},
+  /* 12 */ { q:"What is 'Output encoding'?", opts:["Encoding output to prevent XSS","Compressing output","Hashing output","Encrypting DB"], answerArabic:"ترميز المخرجات لمنع تنفيذ جافاسكربت من مدخلات المستخدم.", exp1:"مثال: تحويل علامات < و > إلى كيانات HTML عند العرض.", exp2:"جزء من الدفاع ضد XSS بجانب التحقق من المدخلات."},
+  /* 13 */ { q:"What is 'Password policy'?", opts:["Rules for password strength & rotation","Encryption algorithm","Network policy","Backup schedule"], answerArabic:"سياسة تحدد طول وتعقيد وتكرار تغيير كلمات السر.", exp1:"تسهم في تقليل احتمال كسر كلمات السر.", exp2:"يفضل استخدام مصادقة متعددة العوامل بدل تغييرات متكررة بدون سبب."},
+  /* 14 */ { q:"What is 'Privileged Access Management (PAM)'?", opts:["Controlling and auditing privileged accounts","Regular backup","User training","Antivirus update"], answerArabic:"إدارة وصول الحسابات المتميزة ومراقبتها.", exp1:"يشمل تسجيل الدخول المؤقت، التوثيق القوي، ومراجعة الصلاحيات.", exp2:"يقلل من أثر اختراق حساب إداري."},
+  /* 15 */ { q:"What is 'Network segmentation'?", opts:["Dividing network into smaller zones to limit spread","Single flat network","Encrypting all packets","Replacing routers"], answerArabic:"تقسيم الشبكة لمنع انتشار الهجوم بين الأقسام.", exp1:"يزيد صعوبة تحرك المهاجم داخل الشبكة.", exp2:"ينفذ عبر VLANs، firewalls داخلية، وقواعد وصول."},
+  /* 16 */ { q:"What is 'Data exfiltration'?", opts:["Unauthorized data theft from a system","Data backup","Encryption at rest","Data compression"], answerArabic:"سحب بيانات بشكل غير مصرح من نظام الضحية.", exp1:"يمكن أن يتم عبر قنوات مشفرة أو عبر البريد.", exp2:"مراقبة حركة الشبكة والـDLP يساعدان في الكشف."},
+  /* 17 */ { q:"What is 'DLP' (Data Loss Prevention)?", opts:["Tools to detect and prevent sensitive data leak","Disk partitioning","Password manager","Firewall log"], answerArabic:"أدوات لكشف ومنع تسريب البيانات الحساسة.", exp1:"تراقب المحتوى وتمنع النقل غير المصرح للملفات.", exp2:"تستخدم قواعد وأنماط لاكتشاف مستندات حساسة."},
+  /* 18 */ { q:"What is 'MITRE ATT&CK'?", opts:["Knowledge base of adversary techniques","Encryption framework","VPN type","Firewall model"], answerArabic:"قاعدة معرفة لتقنيات وأساليب المهاجمين.", exp1:"تستخدم لفهم أسباب الحوادث وتصميم الدفاعات.", exp2:"تفصّل تكتلات هجمات مثل الإيضاحات وسلوك الأدوات."},
+  /* 19 */ { q:"What is 'Threat intelligence'?", opts:["Collecting info about threats to inform defense","Threat removal tool","Backup plan","Encryption key"], answerArabic:"جمع وتحليل معلومات عن تهديدات لرفع جاهزية الدفاع.", exp1:"يشمل مصادر مفتوحة ومحمية لمراقبة ملوحات الهجوم.", exp2:"يمكن توجيه سياسات الدفاع وتحديثات القوائم السوداء."},
+  /* 20 */ { q:"What is 'SOC' (Security Operations Center)?", opts:["Team that monitors and responds to security incidents","Backup center","DevOps team","Cloud provider"], answerArabic:"فريق/مركز يراقب الحوادث ويستجيب لها عملياً.", exp1:"يتضمن محللين، أدوات SIEM، وإجراءات استجابة للحوادث.", exp2:"يعمل 24/7 في مؤسسات ذات حساسية عالية."},
+  /* 21 */ { q:"What is 'Forensics' in cybersecurity?", opts:["Investigating incidents to determine cause and scope","Penetration testing","Patch deployment","Network scanning"], answerArabic:"التحقيق الجنائي الرقمي لفهم وقياس آثار الحوادث.", exp1:"يتضمن جمع الأدلة، تحليل السجلات، واستعادة الملفات.", exp2:"يجب اتباع إجراءات تحفظ الأدلة قانونياً."},
+  /* 22 */ { q:"What is 'Indicator of Compromise (IoC)'?", opts:["Evidence suggesting a system was breached","Backup indicator","Encryption key","Login token"], answerArabic:"دليل يوحي بوجود اختراق مثل ملفات أو اتصالات مشبوهة.", exp1:"أمثلة: أسماء ملفات ضارة، عناوين IP، أنماط هاش.", exp2:"استخدام IoCs يساعد في البحث والكشف السريع."},
+  /* 23 */ { q:"What is 'Beaconing' behavior?", opts:["Periodic contact from malware to C2 server","Faster network","Disk write pattern","User login"], answerArabic:"اتصال دوري للبرمجية الخبيثة بخادم القيادة والتحكم.", exp1:"يدل على قناة تحكم متواصلة ويجعل الكشف ممكناً.", exp2:"تحليل الشبكة يكشف النمط الدوري."},
+  /* 24 */ { q:"What is 'C2 (Command and Control)'?", opts:["Attacker-controlled server coordinating malware","Backup server","DNS server","Antivirus update server"], answerArabic:"خادم المهاجم الذي يصدر أوامر للبرمجيات الخبيثة.", exp1:"يمكنه إرسال أوامر وتنزيل أدوات إضافية.", exp2:"قطع اتصال C2 يقلل قدرات العينة الخبيثة."},
+  /* 25 */ { q:"What is 'Beaconing detection'?", opts:["Detecting periodic malware callbacks to C2","Encrypting beacons","Blocking ports","Log rotation"], answerArabic:"كشف الأنماط الدورية التي تشير لوجود C2.", exp1:"يُستخدم لتحري حركة الشبكة المنتظمة للاتصال بالخادم.", exp2:"أدوات تحليل الشبكة والـSIEM تسهل الاكتشاف."},
+  /* 26 */ { q:"What is 'memory forensics'?", opts:["Analyzing RAM to find fileless malware or secrets","Disk wiping","Network sniffing","Certificate check"], answerArabic:"تحليل الذاكرة لاكتشاف برامج خبيثة وعدد من الأدلة.", exp1:"يظهر العمليات النشطة، الاتصالات، وبيانات المنفذة.", exp2:"مهم لاكتشاف Fileless malware والأدلة المؤقتة."},
+  /* 27 */ { q:"What is 'YARA' used for?", opts:["Pattern matching to identify malware samples","Encrypting files","Password storage","Network mapping"], answerArabic:"أداة لتعريف قواعد نمطية للتعرف على برمجيات خبيثة.", exp1:"تستخدم قواعد YARA للبحث عن دلائل تشابه بين العينات.", exp2:"شائعة في فرق التحليل لتصنيف العيّنات."},
+  /* 28 */ { q:"What is 'Entropy analysis'?", opts:["Measuring randomness to detect packed/encrypted files","Counting lines","File size check","Hashing only"], answerArabic:"قياس عشوائية الملف لاكتشاف ضغط/تشفير/تغليف.", exp1:"قيمة عالية تشير لوجود تشفير أو تعبئة مضغوطة.", exp2:"مساعد في معرفة ما إذا كان الملف محميًا ضد التحليل."},
+  /* 29 */ { q:"What is 'packer' in malware context?", opts:["Tool that compresses/obfuscates binaries to evade detection","Backup tool","Network switch","Database"], answerArabic:"أداة تضغط أو تغلف الملف لتصعيب التحليل.", exp1:"تخفي علامات الملف الأصلية وتزيد التعقيد للتحليل السلبي.", exp2:"مطورو المضادات يستخدمون تقنيات تفكيك خاصة بها."},
+  /* 30 */ { q:"What is 'obfuscation'?", opts:["Hiding program logic to hinder analysis","Faster execution","Encryption key","Firewall rule"], answerArabic:"تمويه منطق البرنامج لجعل فهمه أصعب.", exp1:"يشمل تشفير أجزاء، إعادة تسمية، وطرق تشغيل معقدة.", exp2:"تستعمل لتأخير تحليل العينة وزيادة تكاليف التحليل."},
+  /* 31 */ { q:"What is 'API hooking' in malware?", opts:["Intercepting API calls to alter behavior or hide","Backup API","Logging API","Encryption API"], answerArabic:"التصنت أو اعتراض استدعاءات واجهات النظام لتغيير السلوك أو إخفاء.", exp1:"يستخدم الروتكيت والبرمجيات الخبيثة لإخفاء العمليات.", exp2:"مكافحة تتطلب مراقبة منخفضة المستوى واسترجاع النداءات."},
+  /* 32 */ { q:"What is 'sandbox evasion'?", opts:["Techniques malware uses to detect and avoid sandbox","Encrypting logs","Speeding up execution","File backup"], answerArabic:"تقنيات تكشف بيئة الاختبار وتمنع التشغيل أو تُغيّر السلوك.", exp1:"تشمل انتظار طويل، فحص وجود أدوات تحليل، أو التحقق من الـhostname.", exp2:"تحسين الساندبوكس يتطلب محاكاة بشرية وبيئة أكثر واقعية."},
+  /* 33 */ { q:"What is 'polymorphic malware'?", opts:["Malware that changes its code to avoid signatures","Static binary","Safe program","Backup script"], answerArabic:"برمجية تغير شكلها الشكلي لتفادي التوقيعات.", exp1:"تولّد نسخ متغيرة برمجياً لكن بنفس السلوك.", exp2:"يُمكن اكتشافها عبر سلوكها بدلاً من توقيعات ثابتة."},
+  /* 34 */ { q:"What is 'metasploit'?", opts:["A penetration testing framework","Antivirus vendor","Backup tool","SIEM"], answerArabic:"إطار عمل لاختبار الاختراق يحتوي على العديد من الاستغلالات.", exp1:"يستخدمه الباحثون الأمنيون لتقييم قابلية الأنظمة للاختراق.", exp2:"له أدوات لإنشاء شيلز، استغلال ثغرات، وبناء Payloads."},
+  /* 35 */ { q:"What is 'reverse engineering'?", opts:["Analyzing compiled code to understand its workings","Network scan","Encrypting source","Backup"], answerArabic:"تفكيك البرنامج وتحليل الكود المترجم لمعرفة كيفية عمله.", exp1:"يستخدم لتحليل البرمجيات الخبيثة أو فهم برمجيات مغلقة.", exp2:"يتطلب أدوات مثل disassemblers وdebuggers."},
+  /* 36 */ { q:"What is 'debugger' tool used for?", opts:["Step-by-step execution and inspection of programs","Compressing files","Encrypting disk","Scanning ports"], answerArabic:"أداة لتشغيل البرنامج خطوة بخطوة ومراقبة الذاكرة والسجلات.", exp1:"مهم في التحليل الديناميكي لفهم سلوك البرنامج.", exp2:"يمكن للمطور والمحلل إيقاف التنفيذ وتعديل القيم."},
+  /* 37 */ { q:"What is 'sandbox fingerprinting'?", opts:["Detecting characteristics unique to sandbox environment","Fingerprint reader","Encrypting sandbox","Network mapping"], answerArabic:"كشف المحلّل إذا كانت العينة تعمل في ساندبوكس عبر خصائص بيئية.", exp1:"البرامج الخبيثة تستخدم ذلك لتغيير سلوكها عند الاكتشاف.", exp2:"تتطلب الحماية تحسين تمويه البيئات لتبدو كأنها نظام حقيقي."},
+  /* 38 */ { q:"What is 'threat hunting'?", opts:["Proactive search for undetected threats in environment","Passive logging","Backup process","User training"], answerArabic:"البحث الاستباقي عن تهديدات غير مكتشفة داخل البيئة.", exp1:"يتضمن تحليل السجلات، الأنماط الشاذة، والبحث عن IoCs.", exp2:"نشاط فعال لتقليل الوقت بين الاختراق والاكتشاف."},
+  /* 39 */ { q:"What is 'attack surface'?", opts:["All points where attacker can try to enter or extract data","Backup area","Encryption key store","Network map only"], answerArabic:"مجموع النوافذ والواجهات التي يمكن للمهاجم استغلالها.", exp1:"تقليل سطح الهجوم يقلل فرص الاختراق.", exp2:"يشمل بروتوكولات، خدمات مفتوحة، واجهات مستخدم، وصلاحيات."},
+  /* 40 */ { q:"What is 'hardening' a system?", opts:["Applying measures to reduce vulnerabilities and attack surface","Overclocking CPU","Backup rotation","User onboarding"], answerArabic:"تحسين إعدادات النظام لتقليل الثغرات والحد من الهجوم.", exp1:"يشمل إغلاق خدمات غير مستخدمة، تحديثات، وتهيئة سليمة.", exp2:"جزء أساسي من إجراءات الأمن الأساسية للمؤسسات."},
+  /* 41 */ { q:"What is 'application whitelisting'?", opts:["Allow only approved applications to run","Block all apps","Encrypt apps","Scan apps only"], answerArabic:"السماح فقط لتطبيقات مصدق عليها بالتشغيل.", exp1:"يمنع تشغيل برامج خبيثة غير معروفة.", exp2:"يحتاج إدارة مركزية لقوائم التطبيقات المسموح بها."},
+  /* 42 */ { q:"What is 'certificate authority (CA)'?", opts:["Entity that issues digital certificates","Firewall vendor","Malware repo","SIEM provider"], answerArabic:"جهة تصدر شهادات رقمية للتحقق من هوية المواقع والخوادم.", exp1:"الاعتماد على CA يضمن أن شهادة الخادم صادرة عن كيان موثوق.", exp2:"خرق CA يسبب مخاطر واسعة في الثقة الرقمية."},
+  /* 43 */ { q:"What is 'revocation' of certificates?", opts:["Invalidating a certificate before expiry","Encrypting certificates","Backing up certs","Issuing new cert only"], answerArabic:"إبطال شهادة رقمية بسبب اختراق أو خطأ قبل انتهاء صلاحيتها.", exp1:"قوائم CRL وOCSP تُستخدم للتحقق من الإبطال.", exp2:"تؤثر آليات الإبطال على سلوك التحقق في المتصفحات."},
+  /* 44 */ { q:"What is 'social media reconnaissance'?", opts:["Collecting info from social platforms to target victims","Encrypting posts","Blocking accounts","Logging in only"], answerArabic:"جمع معلومات عن الأشخاص أو المؤسسة من الشبكات الاجتماعية.", exp1:"يستخدم لتحضير هجمات هندسة اجتماعية مستهدفة.", exp2:"يجب الحد من المعلومات المعروضة علناً وتقليل البيانات الشخصية."},
+  /* 45 */ { q:"What is 'red team' exercise?", opts:["Simulated adversary to test defenses (offensive)","Backup test","Compliance audit","Patch deployment"], answerArabic:"فريق يحاكي مهاجم حقيقي لاختبار الدفاعات وقياس المرونة.", exp1:"قائم على سيناريوهات حقيقية ويتضمن تجاوز الضوابط.", exp2:"يختلف عن pen-test بكونه شامل ومطوّل."},
+  /* 46 */ { q:"What is 'blue team'?", opts:["Defense team that detects and responds to attacks","Offensive team","Backup team","Audit team"], answerArabic:"فريق الدفاع المسؤول عن الكشف والاستجابة للحوادث.", exp1:"يشمل مراقبة، تحليل، واستجابة للحوادث الأمنية.", exp2:"التعاون مع red team يحسن من جودة الدفاع."},
+  /* 47 */ { q:"What is 'purple team'?", opts:["Collaboration between red and blue teams to improve security","Backup scheduling","Patch team","Compliance body"], answerArabic:"تعاون بين الفرق الهجومية والدفاعية لتحسين الدورة الأمنية.", exp1:"يهدف لتسريع التحسين وتبادل المعرفة بين الفرق.", exp2:"يعمل على تضمين اختبارات قابلة للتنفيذ في الدفاع."},
+  /* 48 */ { q:"What is 'spear phishing'?", opts:["Targeted phishing at specific individuals","Generic spam","DNS spoofing","Port scan"], answerArabic:"تصيد مخصص يستهدف أفراد أو مؤسسات بعينها.", exp1:"الرسائل تكون مخصّصة وتبدو موثوقة أكثر.", exp2:"الوقاية عبر التوعية والتحقق من الروابط والمصادر."},
+  /* 49 */ { q:"What is 'incident response plan'?", opts:["Documented steps to handle security incidents","Encryption policy","Backup list","User handbook"], answerArabic:"خطة موثقة للاستجابة للحوادث الأمنية.", exp1:"تشمل اكتشاف، احتواء، إزالة، واستعادة النظام.", exp2:"التدريب والاختبار الدوري ضروريان لفعاليتها."}
+];
+
+/* State and displayOrder (same logic as chapter1_fixed) */
+const totalQuestions = questions.length;
+let state = new Array(totalQuestions).fill(null).map(()=>({ selIndex:null, revealed:false, scored:false }));
+let displayOrder = Array.from({length: totalQuestions}, (_,i)=>i);
+const quizList = document.getElementById('quizList');
+
+function renderQuestionsByOrder(){
+  quizList.innerHTML = '';
+  displayOrder.forEach((origIdx, displayPos) => {
+    const it = questions[origIdx];
+    const div = document.createElement('div');
+    div.className = 'qcard';
+    div.dataset.orig = origIdx;
+    div.innerHTML = `
+      <div class="qhead"><div class="qnum">Q${displayPos+1}</div><div class="muted">سؤال رقم ${displayPos+1}</div></div>
+      <div class="qtext">${it.q}</div>
+      <div class="opts" id="opts-${origIdx}">
+        ${it.opts.map((o,i)=>`<div class="opt" data-qorig="${origIdx}" data-i="${i}"><strong>${String.fromCharCode(65+i)}.</strong> ${o}</div>`).join('')}
+      </div>
+      <div class="actions">
+        <button class="btn revealBtn" data-qorig="${origIdx}">أظهر الإجابة</button>
+        <button class="btn secondary explainBtn" data-qorig="${origIdx}">عرض الشرحين</button>
+      </div>
+      <div class="reveal" id="reveal-${origIdx}">
+        <div><strong>الإجابة (بالعربية):</strong> <span id="ans-${origIdx}"></span></div>
+        <div class="explain" id="exp1-${origIdx}"></div>
+        <div class="explain" id="exp2-${origIdx}"></div>
+      </div>
+    `;
+    quizList.appendChild(div);
+
+    // restore previous state if any
+    const sel = state[origIdx].selIndex;
+    if(sel !== null){
+      const optsContainer = div.querySelector('.opts');
+      const chosenEl = optsContainer.querySelector(`.opt[data-i="${sel}"]`);
+      if(chosenEl) chosenEl.classList.add('selected');
+      if(state[origIdx].scored){
+        const correctIdx = getCorrectIndex(origIdx);
+        if(chosenEl){
+          if(Number(chosenEl.dataset.i) === correctIdx) chosenEl.classList.add('correct');
+          else chosenEl.classList.add('wrong');
+        }
+        const correctEl = optsContainer.querySelector(`.opt[data-i="${correctIdx}"]`);
+        if(correctEl) correctEl.classList.add('correct');
+        optsContainer.querySelectorAll('.opt').forEach(el => el.style.pointerEvents = 'none');
+        if(state[origIdx].revealed) showAnswer(origIdx);
+      }
+    }
+  });
+}
+
+/* initial render */
+renderQuestionsByOrder();
+
+/* correctIndexMap default (all 0) */
+function getCorrectIndex(origQuestionIndex){
+  return 0;
+}
+
+/* event delegation */
+quizList.addEventListener('click', function(e){
+  const opt = e.target.closest('.opt');
+  if(opt){
+    const orig = parseInt(opt.dataset.qorig,10);
+    const chosen = parseInt(opt.dataset.i,10);
+    handleSelection(orig, chosen, opt.closest('.qcard'));
+    return;
+  }
+  const revealBtn = e.target.closest('.revealBtn');
+  if(revealBtn){
+    const orig = parseInt(revealBtn.dataset.qorig,10);
+    showAnswer(orig);
+    return;
+  }
+  const explainBtn = e.target.closest('.explainBtn');
+  if(explainBtn){
+    const orig = parseInt(explainBtn.dataset.qorig,10);
+    showAnswer(orig);
+    return;
+  }
+});
+
+function handleSelection(origIndex, chosenIndex, cardElement){
+  if(state[origIndex].scored) return;
+  const optsContainer = cardElement.querySelector('.opts');
+  optsContainer.querySelectorAll('.opt').forEach(el=>el.classList.remove('selected'));
+  const chosenEl = optsContainer.querySelector(`.opt[data-i="${chosenIndex}"]`);
+  if(chosenEl) chosenEl.classList.add('selected');
+  const correctIdx = getCorrectIndex(origIndex);
+  if(chosenIndex === correctIdx){
+    if(chosenEl) chosenEl.classList.add('correct');
+    state[origIndex].selIndex = chosenIndex;
+    state[origIndex].scored = true;
+    showAnswer(origIndex);
+  } else {
+    if(chosenEl) chosenEl.classList.add('wrong');
+    const correctEl = optsContainer.querySelector(`.opt[data-i="${correctIdx}"]`);
+    if(correctEl) correctEl.classList.add('correct');
+    state[origIndex].selIndex = chosenIndex;
+    state[origIndex].scored = true;
+    showAnswer(origIndex);
+  }
+  optsContainer.querySelectorAll('.opt').forEach(el => el.style.pointerEvents = 'none');
+}
+
+function showAnswer(origIndex){
+  const rdiv = document.getElementById(`reveal-${origIndex}`);
+  if(!rdiv) return;
+  const item = questions[origIndex];
+  document.getElementById(`ans-${origIndex}`).textContent = item.answerArabic;
+  document.getElementById(`exp1-${origIndex}`).textContent = "شرح 1: " + item.exp1;
+  document.getElementById(`exp2-${origIndex}`).textContent = "شرح 2: " + item.exp2;
+  rdiv.style.display = 'block';
+  state[origIndex].revealed = true;
+}
+
+/* shuffle / showAll / search */
+document.getElementById('shuffle').addEventListener('click', function(){
+  for(let i=displayOrder.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [displayOrder[i], displayOrder[j]] = [displayOrder[j], displayOrder[i]];
+  }
+  renderQuestionsByOrder();
+});
+document.getElementById('showAll').addEventListener('click', function(){
+  displayOrder = Array.from({length: totalQuestions}, (_,i)=>i);
+  renderQuestionsByOrder();
+});
+document.getElementById('search').addEventListener('input', function(){
+  const s = this.value.trim().toLowerCase();
+  if(!s){ displayOrder = Array.from({length: totalQuestions}, (_,i)=>i); renderQuestionsByOrder(); return; }
+  const filtered = [];
+  for(let i=0;i<questions.length;i++){
+    const qLower = questions[i].q.toLowerCase();
+    const optsJoined = questions[i].opts.join(' ').toLowerCase();
+    if(qLower.includes(s) || optsJoined.includes(s)) filtered.push(i);
+  }
+  displayOrder = filtered;
+  renderQuestionsByOrder();
+});
+
+/* finish / reset */
+document.getElementById('finishBtn').addEventListener('click', function(){
+  let correct = 0;
+  for(let i=0;i<totalQuestions;i++){
+    const sel = state[i].selIndex;
+    if(sel !== null && sel === getCorrectIndex(i)) correct++;
+  }
+  const resultText = document.getElementById('resultText');
+  resultText.innerHTML = `حصلت على <strong>${correct}</strong> من <strong>${totalQuestions}</strong> نقطة.`;
+  const percent = (correct/totalQuestions)*100;
+  const advice = document.getElementById('advice');
+  if(percent>=85) advice.textContent = "🔥 ممتاز!";
+  else if(percent>=60) advice.textContent = "✨ جيد!";
+  else advice.textContent = "⚠️ بحاجة لتحسين.";
+});
+document.getElementById('resetBtn').addEventListener('click', function(){
+  state = new Array(totalQuestions).fill(null).map(()=>({ selIndex:null, revealed:false, scored:false }));
+  displayOrder = Array.from({length: totalQuestions}, (_,i)=>i);
+  renderQuestionsByOrder();
+  document.getElementById('resultText').textContent = 'لم يتم احتساب النتيجة بعد.';
+  document.getElementById('advice').textContent = '';
+});
+
+</script>
+</body>
+</html>

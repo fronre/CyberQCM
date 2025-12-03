@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Chapter 1 — Cybersecurity Quiz (50 Questions) </title>
+<style>
+  /* ====== Base / Reset ====== */
+  :root{
+    --bg1:#071821; --glass: rgba(255,255,255,0.04);
+    --neon:#00eaff; --accent:#7c3aed; --muted:#9fb3c8; --card-shadow: 0 8px 40px rgba(2,8,20,0.6);
+    --good:#16a34a; --bad:#ef4444;
+  }
+  html,body{height:100%;margin:0;font-family: "Cairo", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; background: radial-gradient(circle at 10% 10%, #04202a 0%, #000814 60%); color:#e6f6ff}
+  .wrap{max-width:1100px;margin:24px auto;padding:18px}
+  header{padding:35px 20px;margin:0 -20px 35px -20px;background:linear-gradient(135deg, rgba(0,234,255,0.12) 0%, rgba(124,58,237,0.08) 100%);border-bottom:3px solid var(--neon);box-shadow:0 6px 30px rgba(0,234,255,0.15)}
+  header h1{margin:0 0 10px 0;font-size:26px;color:var(--neon);text-shadow:0 0 20px rgba(0,234,255,0.4);font-weight:700;letter-spacing:0.5px}
+  header p{margin:0;color:var(--muted);font-size:13px;line-height:1.5}
+  .layout{display:grid;grid-template-columns:320px 1fr;gap:18px;margin-top:18px}
+  @media(max-width:920px){ .layout{grid-template-columns:1fr} }
+
+  /* ====== Sidebar definitions ====== */
+  .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); padding:16px;border-radius:14px;box-shadow:var(--card-shadow);border:1px solid rgba(255,255,255,0.03)}
+  .defs h2{color:var(--accent);margin:0 0 8px 0}
+  .def{padding:10px;margin:8px 0;border-radius:10px;background:rgba(0,0,0,0.25); border-left:4px solid var(--neon);color:#dff6ff;font-size:14px}
+
+  /* ====== Quiz area ====== */
+  .controls{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
+  .search{flex:1;padding:8px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:var(--neon)}
+  .btn{background:var(--neon);color:#002;border:none;padding:10px 12px;border-radius:10px;font-weight:700;cursor:pointer}
+  .btn.secondary{background:transparent;color:var(--neon);border:1px solid rgba(255,255,255,0.04)}
+
+  .qcard{margin-bottom:12px;padding:14px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));border:1px solid rgba(255,255,255,0.02)}
+  .qhead{display:flex;justify-content:space-between;align-items:center;gap:12px}
+  .qnum{font-weight:800;color:var(--neon)}
+  .qtext{font-weight:700;color:#c9f4ff;margin-top:8px}
+  .opts{margin-top:10px;display:flex;flex-direction:column;gap:8px}
+  .opt{padding:10px;border-radius:10px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.02);cursor:pointer;transition:all 0.15s ease}
+  .opt:hover{transform:translateY(-3px);box-shadow:0 8px 30px rgba(0,234,255,0.03)}
+  .opt.selected{outline:3px solid rgba(0,234,255,0.12)}
+  .opt.correct{background:rgba(22,163,74,0.12);border-color:rgba(22,163,74,0.4);box-shadow:0 8px 30px rgba(22,163,74,0.06)}
+  .opt.wrong{background:rgba(239,68,68,0.08);border-color:rgba(239,68,68,0.35);box-shadow:0 8px 30px rgba(239,68,68,0.06)}
+
+  .actions{display:flex;gap:8px;margin-top:10px}
+  .reveal{padding:10px;border-radius:10px;background:linear-gradient(90deg, rgba(0,234,255,0.04), rgba(124,58,237,0.03));display:none}
+  .reveal strong{color:var(--neon)}
+  .explain{margin-top:8px;color:var(--muted);font-size:14px}
+
+  /* ====== Score box ====== */
+  .score-wrap{margin-top:16px;padding:14px;border-radius:12px;background:linear-gradient(180deg, rgba(124,58,237,0.04), rgba(0,0,0,0.2));border:1px solid rgba(255,255,255,0.02)}
+  .score h2{margin:0;color:var(--neon)}
+  .result{font-size:18px;color:#dff6ff;margin-top:8px}
+
+  /* small text */
+  .muted{color:var(--muted);font-size:13px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>Chapter 1 — Cybersecurity QCM (50 Questions)</h1>
+      <p>إعداد: <strong>محمد إسلام</strong></p>
+      <p class="muted">الأسئلة بالإنجليزية — الإجابات والشروح بالعربية. <a href="main.html" style="color:var(--neon);text-decoration:underline">الصفحة الرئيسية</a></p>
+    </div>
+  </header>
+
+  <div class="layout">
+    <!-- SIDEBAR -->
+    <aside class="card defs">
+      <h2>تعريفات سريعة</h2>
+      <div class="def"><strong>Confidentiality</strong> — السرية: حماية المعلومات من الوصول غير المصرح.</div>
+      <div class="def"><strong>Integrity</strong> — التكامل: ضمان أن البيانات لم تتغير بدون إذن.</div>
+      <div class="def"><strong>Availability</strong> — التوفر: ضمان إمكانية الوصول للخدمات والبيانات عند الحاجة.</div>
+      <div class="def"><strong>Malware</strong> — برمجيات خبيثة: برامج تهدف للضرر أو التجسس.</div>
+      <div class="def"><strong>XSS / SQLi / Ransomware</strong> — أمثلة شائعة للهجمات البرمجية.</div>
+      <div style="margin-top:10px;color:var(--muted);font-size:13px">ملاحظة: الشرح موجّه للتعلّم والأغراض التعليمية فقط.</div>
+    </aside>
+
+    <!-- MAIN QUIZ AREA -->
+    <main>
+      <div class="card">
+        <div class="controls">
+          <input id="search" class="search" placeholder="ابحث عن سؤال..." />
+          <button id="shuffle" class="btn secondary">خلط الأسئلة</button>
+          <button id="showAll" class="btn secondary">عرض الكل</button>
+        </div>
+
+        <div id="quizList"></div>
+
+        <div class="score-wrap">
+          <div class="score">
+            <h2>النتيجة</h2>
+            <div class="result" id="resultText">لم يتم احتساب النتيجة بعد. اضغط "إنهاء الاختبار" عند الانتهاء.</div>
+            <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap">
+              <button id="finishBtn" class="btn">إنهاء الاختبار وحساب النتيجة</button>
+              <button id="resetBtn" class="btn secondary">إعادة التهيئة</button>
+            </div>
+            <div id="advice" class="explain"></div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+</div>
+
+<script>
+/* ====== Dataset: 50 questions ====== */
+const questions = [
+/* 0 */ { q:"What is IP spoofing?", opts:["Faking source IP address","Encrypting packets","Filtering traffic","Updating DNS"], answerArabic:"تزوير عنوان الـ IP المصدر.", exp1:"المهاجم يغير عنوان المصدر ليبدو وكأنه من جهاز آخر.", exp2:"يستخدم لتجاوز قوائم التحكم أو لخداع الضحية أو أجهزة الشبكة."},
+/* 1 */ { q:"What is ARP poisoning?", opts:["Injecting fake ARP entries","Port knocking","Session hijack","Brute force"], answerArabic:"حقن مدخلات ARP خاطئة في شبكة محلية.", exp1:"يغيّر المهاجم ارتباط الـ IP مع MAC ليحرف المرور.", exp2:"يؤدي إلى اعتراض الحركة أو تنفيذ هجوم Man-in-the-Middle."},
+/* 2 */ { q:"DNS cache poisoning aims to:", opts:["Store fake DNS responses","Speed DNS","Encrypt DNS","Update records"], answerArabic:"تخزين ردود DNS مزيفة في الكاش لإعادة توجيه المستخدمين.", exp1:"بعد التسميم، المستخدم يذهب لموقع الضحية بدل الموقع المقصود.", exp2:"يستغل ضعف الـ resolver أو قرب الوقت/TTL لتنفيذ الهجوم."},
+/* 3 */ { q:"What is a SYN flood attack?", opts:["Many SYN requests without completion","DNS hijack","ARP scan","SQL injection"], answerArabic:"إرسال عدد كبير من طلبات SYN دون إكمال المصافحة TCP.", exp1:"الخادم يبقى بانتظار ACK ما يؤدي لاستنزاف الموارد.", exp2:"نوع من هجمات DoS يهدف لقطع الخدمة عبر استهلاك جداول الاتصالات."},
+/* 4 */ { q:"What does XSS attack target?", opts:["User browsers","Database engine","Router firmware","Antivirus"], answerArabic:"متصفحات المستخدمين عبر تنفيذ سكربت ضار.", exp1:"يحقن المهاجم جافاسكربت تعمل عند ضحية تزور الصفحة.", exp2:"يمكن سرقة الكوكيز، تنفيذ أوامر نيابة عن الضحية، أو تغييرات بالمحتوى."},
+/* 5 */ { q:"What is SQL Injection?", opts:["Injecting malicious SQL commands","Encrypting DB","Data backup","Firewall rule"], answerArabic:"حقن استعلامات SQL خبيثة عبر مدخلات غير معقمة.", exp1:"المهاجم يغيّر استعلامات قاعدة البيانات للحصول على بيانات أو تغييرها.", exp2:"يمكن أن يؤدي لتسريب بيانات حساسة أو حذفها أو الحصول على امتيازات."},
+/* 6 */ { q:"What is ransomware?", opts:["Malware that encrypts files for ransom","Adware","Rootkit","Patch management"], answerArabic:"برمجية خبيثة تشفر ملفات الضحية وتطالب بفدية.", exp1:"يمنع الضحية من الوصول لملفاته دون دفع الفدية.", exp2:"قد تسرق نسخاً من البيانات قبل التشفير وتستخدم للضغط."},
+/* 7 */ { q:"What is a worm?", opts:["Self-replicating malware across networks","Browser exploit","Password manager","Firewall feature"], answerArabic:"برمجية خبيثة تنسخ نفسها وتنتشر عبر الشبكات.", exp1:"الـ worm يهاجر بلا تدخل المستخدم إلى أجهزة أخرى.", exp2:"يسبب انتشاراً سريعاً ويستهلك عرض النطاق والموارد."},
+/* 8 */ { q:"What is a Trojan?", opts:["Malicious program disguised as legitimate","Network scanner","IDS system","Encryption tool"], answerArabic:"برنامج خبيث يتظاهر بأنه مشروع لكنه يحتوي وظائف ضارة.", exp1:"يخدع المستخدم لتنزيله ثم يفعل مهام ضارة كفتح بوابات خلفية.", exp2:"يُستخدم عادة للوصول غير المصرح أو تحميل أدوات أخرى."},
+/* 9 */ { q:"What is a rootkit?", opts:["Tool to hide malware presence","Backup tool","Antivirus signature","Encryption method"], answerArabic:"أداة تعمل على إخفاء وجود برمجيات خبيثة داخل النظام.", exp1:"تتلاعب بالنواة أو أدوات النظام لتخفي ملفات وعمليات.", exp2:"تجعل اكتشاف وإزالة البرمجيات الخبيثة صعباً للغاية."},
+/* 10 */ { q:"What is 'social engineering'?", opts:["Manipulating people to reveal info","Encrypting traffic","Port forwarding","Malware scan"], answerArabic:"خداع الأشخاص للحصول على معلومات أو وصول.", exp1:"الهجوم يعتمد على ضعف السلوك وليس ثغرة تقنية.", exp2:"أمثلة: phishing، pretexting، vishing، tailgating."},
+/* 11 */ { q:"What is phishing?", opts:["Fraudulent messages to steal credentials","Network slowdown","System update","File compression"], answerArabic:"رسائل احتيالية تهدف لخداع المستخدم وسرقة بياناته.", exp1:"تُرسل رسائل تشبه جهات موثوقة وتطلب بيانات حساسة.", exp2:"قد توجه المستخدم لمواقع مزيفة تطلب تسجيل الدخول."},
+/* 12 */ { q:"What is 'brute force' attack?", opts:["Trying many passwords until success","Phishing attack","SQL patch","ARP spoofing"], answerArabic:"محاولة كل تركيبات كلمات السر حتى الوصول.", exp1:"يستعمل برامج أو سكربتات لتخمين كلمات المرور بسرعة.", exp2:"يمكن التخفيف منه بفرض قيود على المحاولات والمصادقة الثنائية."},
+/* 13 */ { q:"Two-Factor Authentication (2FA) means:", opts:["Two verification methods for identity","Two passwords","Two emails","Two firewalls"], answerArabic:"استخدام طريقتين للتحقق من هوية المستخدم.", exp1:"مثال: كلمة سر + كود من تطبيق أو رسالة SMS.", exp2:"يزيد من أمان الحساب حتى لو تسربت كلمة المرور."},
+/* 14 */ { q:"What is a firewall?", opts:["Device that filters network traffic","Malware type","Data backup","DNS server"], answerArabic:"جهاز أو برنامج يفلتر حركة الشبكة ويمنع الاتصالات غير المرغوبة.", exp1:"يطبق قواعد لتحديد ما يُسمح وما يُمنع من اتصالات.", exp2:"يعمل على مستوى الشبكة أو التطبيق لتقليل الهجمات."},
+/* 15 */ { q:"What is IDS (Intrusion Detection System)?", opts:["Detects suspicious activity","Encrypts files","Reboots servers","Scans ports only"], answerArabic:"نظام يكشف النشاط المشبوه ويُبلّغ المسؤولين.", exp1:"يمكن أن يكون شبكياً أو على المضيف ويكشف محاولات التسلل.", exp2:"لا يمنع بالضرورة لكنه يدعم الاستجابة السريعة للحوادث."},
+/* 16 */ { q:"What is IPS (Intrusion Prevention System)?", opts:["Detects and blocks attacks","Only logs events","Encrypts traffic","Backs up data"], answerArabic:"نظام يكتشف ويمنع الهجمات تلقائياً.", exp1:"يشبه IDS ولكنه قادر على حجب الاتصالات المشبوهة.", exp2:"يتطلب ضبطاً دقيقاً لتجنب حجب حركة شرعية (false positives)."},
+/* 17 */ { q:"What is 'man-in-the-middle' (MITM)?", opts:["Attacker intercepts communications","Malware update","USB infection","DNS server"], answerArabic:"اعتراض المهاجم للاتصال بين طرفين لقراءة أو تغيير الرسائل.", exp1:"المهاجم يمرر الرسائل بعد تعديلها أو مراقبتها.", exp2:"الحماية: تشفير الطرف الطرف (TLS) والتحقق من الشهادات."},
+/* 18 */ { q:"What is SSL/TLS used for?", opts:["Encrypting connections (HTTPS)","Scanning ports","Blocking IPs","Compressing images"], answerArabic:"تشفير الاتصال بين المتصفح والخادم لضمان السرية والسلامة.", exp1:"يمنع التنصت ويؤمن تبادل البيانات الهامة.", exp2:"يستخدم شهادات رقمية للتحقق من هوية الخوادم."},
+/* 19 */ { q:"What is 'certificate pinning'?", opts:["Binding a service to a specific certificate","Encrypting files","Port scanning","Firewall rule"], answerArabic:"ربط تطبيق بشهادة رقمية محددة للتحقق من الخادم.", exp1:"يقلل مخاطر MITM عبر رفض شهادات أخرى.", exp2:"مفيد في تطبيقات الجوال لتقوية التحقق من الخوادم."},
+/* 20 */ { q:"What is 'hashing'?", opts:["One-way function to represent data","Two-way encryption","Password storage in plain","File transfer"], answerArabic:"دالة تحويل أحادية الاتجاه تُستخدم لتمثيل البيانات.", exp1:"لا يمكن استرداد النص الأصلي بسهولة من الهاش.", exp2:"يستخدم لحفظ كلمات المرور ومقارنة السلامة (integrity)."},
+/* 21 */ { q:"What is 'salting' passwords?", opts:["Adding random data before hashing","Encrypting hash","Removing password","Double hashing"], answerArabic:"إضافة سلاطة (قيمة عشوائية) قبل الهاشن لمنع هجمات القواميس.", exp1:"حتى لو تساوى كلمتا سر، سيختلف الهاش بوجود سالت مختلف.", exp2:"يجعل الهجمات على قواعد الهاش أقل فاعلية."},
+/* 22 */ { q:"What is 'social engineering: pretexting'?", opts:["Creating a fake identity to extract info","Port scanning","SQL fixing","Malware signature"], answerArabic:"اختراع قصة أو هوية مزيفة لخداع الضحية وإخراج معلومات.", exp1:"المهاجم يتظاهر بموظف أو جهة رسمية للحصول على بيانات.", exp2:"يصعب اكتشافه لأن الأسلوب يعتمد على التفاعل الإنساني."},
+/* 23 */ { q:"What is 'shoulder surfing'?", opts:["Watching someone enter credentials","Phishing","ARP attack","DNS spoofing"], answerArabic:"مراقبة شخص فعلياً لسرقة كلمة المرور أو معلومات حساسة.", exp1:"يحدث في الأماكن العامة عند كتابة كلمات السر أو مشاهدة الشاشة.", exp2:"الحماية: استخدام سترات شاشة، وتغطية لوحة المفاتيح."},
+/* 24 */ { q:"What is 'shoulder surfing' prevention?", opts:["Privacy screen filters","Encrypting traffic","Firewall rules","Antivirus"], answerArabic:"استخدام مرشحات شاشة خصوصية لتقليل زوايا الرؤية.", exp1:"تقليل إمكانية قراءة الشاشة من الجانب يحمي من التجسس البصري.", exp2:"وسيلة بسيطة وفعالة في الأماكن المزدحمة."},
+/* 25 */ { q:"What is 'honeypot'?", opts:["Decoy system to lure attackers","Encryption tool","Backup server","Firewall"], answerArabic:"نظام طُعم لجذب المهاجمين وتحليل أساليبهم.", exp1:"يُستخدم لجمع معلومات عن الأدوات والأساليب المستعملة.", exp2:"مفيد لتحسين الدفاع وفهم تقنيات الخصم."},
+/* 26 */ { q:"What is 'penetration testing'?", opts:["Authorized simulated attack to find flaws","Illegal hacking","Data backup","User training"], answerArabic:"اختبار اختراق مرخّص لمحاكاة هجوم وكشف الثغرات.", exp1:"يُجرى من قبل مختصين لتقييم مستوى الأمان.", exp2:"يشمل شبكات، تطبيقات، وموارد بشرية لتحديد المخاطر."},
+/* 27 */ { q:"What is 'zero-day' vulnerability?", opts:["Unknown vulnerability with no patch","Old patched bug","User error","Expired cert"], answerArabic:"ثغرة جديدة لم يُصدر لها تصحيح بعد.", exp1:"المخترقون قد يستغلونها قبل أن تصدر الشركة تحديثاً.", exp2:"تعتبر عالية الخطورة لأنها بلا حل في البداية."},
+/* 28 */ { q:"What is 'sandbox' in malware analysis?", opts:["Isolated environment to run suspicious files","Production server","Backup","Encryption tool"], answerArabic:"بيئة معزولة لتشغيل العينات ومراقبة سلوكها.", exp1:"تساعد في رؤية نشاط الشبكة والعمليات دون إصابة الأنظمة الحقيقية.", exp2:"تستخدم أدوات وأجهزة افتراضية لتحليل البرمجيات الخبيثة بأمان."},
+/* 29 */ { q:"What is 'static analysis'?", opts:["Analyzing file without executing it","Running file in VM","Network sniffing","Disk encryption"], answerArabic:"فحص الملف وتحليل مكوناته دون تشغيله.", exp1:"يبحث عن سلاسل نصية، استدعاءات، توقيعات، وهيكل الملف.", exp2:"مفيد لتحديد دلائل وجود برمجيات خبيثة قبل التشغيل."},
+/* 30 */ { q:"What is 'dynamic analysis'?", opts:["Analyzing behavior during execution","Static code reading","Encrypting logs","Blocking ports"], answerArabic:"مراقبة سلوك العينة أثناء تشغيلها في بيئة محمية.", exp1:"يُكشف النشاط الشبكي، العمليات المولّدة، وتغيير النظام.", exp2:"يُكمّل التحليل الثابت ويعطي رؤية عملية لأسلوب العمل."},
+/* 31 */ { q:"What is 'fileless' malware?", opts:["Malware that runs in memory without persistent files","Encrypted file on disk","Regular virus","Signed driver"], answerArabic:"برمجية خبيثة تعمل في الذاكرة ولا تترك ملفات ظاهرة على القرص.", exp1:"يصعب اكتشافها عبر الفحص التقليدي للقرص.", exp2:"غالباً ما تستغل أدوات النظام أو السكربتات لتنفيذ المهام."},
+/* 32 */ { q:"What is 'spoofing' in emails?", opts:["Forging sender address to impersonate others","Encrypting email","Scanning ports","Deleting mail"], answerArabic:"تزوير عنوان المرسل في رسالة البريد لاظهارها كأنها من جهة موثوقة.", exp1:"يستعمله المخترق لخداع المستلم لفتح روابط أو ملفات ملوثة.", exp2:"التحقق بواسطة SPF/DKIM/DMARC يساعد في التصدي له."},
+/* 33 */ { q:"What is 'SPF' for email?", opts:["Sender Policy Framework to validate sending servers","Patch framework","Encryption method","Firewall rule"], answerArabic:"آلية تحدد خوادم الإرسال المسموح بها لاسم نطاق البريد.", exp1:"تقلل من رسائل الانتحال عبر التحقق من مصدر الرسائل.", exp2:"تعمل مع DKIM وDMARC لرفع موثوقية البريد."},
+/* 34 */ { q:"What is 'DKIM'?", opts:["Digital signature for emails","Disk key","Network scan","Malware tool"], answerArabic:"توقيع رقمي يُرفق بالرسائل للتحقق من سلامتها ومنشئها.", exp1:"يستخدم مفتاحاً خاصاً بتوقيع الرسائل ومفتاحاً عاماً للتحقق.", exp2:"يساعد في منع التلاعب بالمحتوى أثناء النقل."},
+/* 35 */ { q:"What is 'DMARC'?", opts:["Policy to instruct how to handle failed SPF/DKIM","Disk manager","Password rule","Port forward"], answerArabic:"سياسة تحدد كيفية تعامل المستلم مع رسائل فشلت في SPF/DKIM.", exp1:"تمكن صاحبي النطاق من طلب الحظر أو التصفية للرسائل المزوّرة.", exp2:"تزيد من حماية النطاق من الاستغلال في حملات الاحتيال."},
+/* 36 */ { q:"What is 'port scanning'?", opts:["Probing open network ports on a host","Encrypting ports","Backup ports","Firewall rule"], answerArabic:"فحص المنافذ المفتوحة على مضيف لمعرفة الخدمات المتاحة.", exp1:"أداة reconnaissance لاكتشاف النقاط الممكن استغلالها.", exp2:"يمكن أن تكون بنّاءة (اختبار) أو عدائية (تحضير لهجوم)."},
+/* 37 */ { q:"What is 'Nmap' commonly used for?", opts:["Network discovery and port scanning","Encrypting files","Blocking attacks","Mail transfer"], answerArabic:"أداة لاستكشاف الشبكات وفحص المنافذ والخدمات.", exp1:"يقدم معلومات عن الأجهزة، المنافذ والأنظمة العاملة.", exp2:"أداة شائعة لدى المهندسين الأمنيين والمهاجمين على حد السواء."},
+/* 38 */ { q:"What is 'VPN' used for?", opts:["Encrypting traffic and hiding IP address","Scanning ports","Resetting passwords","Updating firmware"], answerArabic:"تشفير المرور وإخفاء عنوان الـ IP لتحسين الخصوصية.", exp1:"ينشئ نفقاً مشفراً بين المستخدم وخادم VPN.", exp2:"يجعل من الصعب التنصت وتتبع الأنشطة عبر الشبكة العامة."},
+/* 39 */ { q:"What is 'least privilege' principle?", opts:["Give users minimal permissions needed","Give admins all rights","Share passwords","Open all ports"], answerArabic:"منح المستخدمين أقل صلاحيات لازمة لأداء مهامهم.", exp1:"يقلل مخاطر إساءة الاستخدام أو استغلال حساب مخترق.", exp2:"ينفذ عبر سياسات وصول دقيقة وتقسيم الأدوار."},
+/* 40 */ { q:"What is 'backup' important for?", opts:["Recovering data after incidents","Scanning ports","Encrypting traffic","Logging only"], answerArabic:"استعادة البيانات بعد فقدانها أو هجمات مثل ransomware.", exp1:"وجود نسخ احتياطية يقلل من ضرر فقدان البيانات.", exp2:"ينبغي اختبار استعادة النسخ بانتظام لضمان فعاليتها."},
+/* 41 */ { q:"What is 'patch management'?", opts:["Keeping systems updated to fix vulnerabilities","Deleting old files","Encrypting backups","Scanning email"], answerArabic:"عملية تحديث الأنظمة لإصلاح الثغرات والعيوب.", exp1:"تقلّل من مساحة الهجوم عبر سد الثغرات المعروفة.", exp2:"تتطلب عملية منظّمة لتقليل تعطيل الخدمات عند تطبيق التحديثات."},
+/* 42 */ { q:"What is 'log monitoring'?", opts:["Observing system logs for anomalies","Encrypting disks","Blocking ports","User training"], answerArabic:"مراقبة سجلات النظام لرصد نشاط مشبوه أو حوادث.", exp1:"تمكن فرق الأمن من اكتشاف الحوادث وتحليلها.", exp2:"تسهل الاستجابة وتقوية أنظمة الإنذار المبكر."},
+/* 43 */ { q:"What is 'SIEM'?", opts:["Security Information and Event Management","Simple Internet Email","System Installer","Static Injection Event"], answerArabic:"نظام لإدارة وجمع وتحليل بيانات الأمان والسجلات.", exp1:"يجمع السجلات من مصادر متعددة ويحللها لرصد التهديدات.", exp2:"يساعد في التحقيق والتقارير وتقديم إنذارات ذكية."},
+/* 44 */ { q:"What is 'social engineering: baiting'?", opts:["Leaving malware-infected media to tempt victims","Encrypting traffic","Password policy","Port forwarding"], answerArabic:"ترك وسيط (مثل USB) مصاب لإغراء الضحية بتشغيله.", exp1:"الفضول الطبيعي يدفع البعض لتشغيل الوسائط المجهولة.", exp2:"تؤدي لتثبيت برمجيات خبيثة أو تسريب بيانات داخلية."},
+/* 45 */ { q:"What is 'whaling' in phishing?", opts:["Targeting high-profile individuals (executives)","Fishing technique","Port scanning variant","ARP tool"], answerArabic:"هجوم تصيد مخصص يستهدف الأشخاص ذوي المناصب العليا.", exp1:"الرسائل تكون شخصية ومصممة خصيصاً لخداع الهدف.", exp2:"أضرارها كبيرة بسبب امتيازات الضحايا العالية."},
+/* 46 */ { q:"What is 'credential stuffing'?", opts:["Using leaked credentials to access other sites","Physical stuffing","Password backup","Firewall rule"], answerArabic:"استخدام بيانات اعتماد مسروقة لتجربة الوصول لمواقع أخرى.", exp1:"يعتمد على إعادة استخدام المستخدم لكلمات السر عبر خدمات.", exp2:"يمكن التخفيف منه بالمصادقة الثنائية ومكافحة إعادة الاستخدام."},
+/* 47 */ { q:"What is 'rate limiting' useful for?", opts:["Mitigating brute force and DoS attempts","Faster downloads","Encrypting DB","DNS update"], answerArabic:"الحد من عدد الطلبات لحماية الخدمة من الازدحام أو التخمين.", exp1:"يخفض فاعلية محاولات القوة الغاشمة وهجمات الحجب.", exp2:"يمكن تطبيقه حسب العميل أو الـIP أو المستخدم."},
+/* 48 */ { q:"What is 'CVE'?", opts:["Common Vulnerabilities and Exposures identifier","Cloud Verification Engine","Certificate version","Content validation endpoint"], answerArabic:"معرف قياسي للثغرات والمكشوفات الأمنية (قاعدة بيانات).", exp1:"يُستخدم للإشارة لجميع الثغرات المعروفة وتنسيق المراجع.", exp2:"يساعد في تتبع تحديثات التصحيحات وتقييم المخاطر."},
+/* 49 */ { q:"What is 'defense in depth'?", opts:["Layered security approach","Single firewall","One-time password","Open network"], answerArabic:"استراتيجية أمنية تعتمد على طبقات متعددة من الحماية.", exp1:"يجمع ضوابط تقنية، إدارية، وفيزيائية للحد من المخاطر.", exp2:"فكرة أن فشل طبقة واحدة لا يعني اختراق النظام ككل."}
+];
+
+/* ====== State (per original question index) ====== */
+const totalQuestions = questions.length;
+let state = new Array(totalQuestions).fill(null).map(()=>({ selIndex:null, revealed:false, scored:false }));
+
+/* ====== displayOrder: array of original indices in the order currently shown ====== */
+let displayOrder = Array.from({length: totalQuestions}, (_,i)=>i);
+
+/* ====== Rendering function now uses displayOrder ====== */
+const quizList = document.getElementById('quizList');
+
+function renderQuestionsByOrder(){
+  quizList.innerHTML = '';
+  displayOrder.forEach((origIdx, displayPos) => {
+    const it = questions[origIdx];
+    const div = document.createElement('div');
+    div.className = 'qcard';
+    div.dataset.orig = origIdx; // store original index for easy lookup
+    div.innerHTML = `
+      <div class="qhead"><div class="qnum">Q${displayPos+1}</div><div class="muted">سؤال رقم ${displayPos+1}</div></div>
+      <div class="qtext">${it.q}</div>
+      <div class="opts" id="opts-${origIdx}">
+        ${it.opts.map((o,i)=>`<div class="opt" data-qorig="${origIdx}" data-i="${i}"><strong>${String.fromCharCode(65+i)}.</strong> ${o}</div>`).join('')}
+      </div>
+      <div class="actions">
+        <button class="btn revealBtn" data-qorig="${origIdx}">أظهر الإجابة</button>
+        <button class="btn secondary explainBtn" data-qorig="${origIdx}">عرض الشرحين</button>
+      </div>
+      <div class="reveal" id="reveal-${origIdx}">
+        <div><strong>الإجابة (بالعربية):</strong> <span id="ans-${origIdx}"></span></div>
+        <div class="explain" id="exp1-${origIdx}"></div>
+        <div class="explain" id="exp2-${origIdx}"></div>
+      </div>
+    `;
+    quizList.appendChild(div);
+
+    // If user already answered this origIdx previously (from previous render), reflect that visually:
+    const sel = state[origIdx].selIndex;
+    if(sel !== null){
+      const optsContainer = div.querySelector('.opts');
+      const chosenEl = optsContainer.querySelector(`.opt[data-i="${sel}"]`);
+      if(chosenEl) chosenEl.classList.add('selected');
+      // if already scored, mark correct/wrong
+      if(state[origIdx].scored){
+        const correctIdx = getCorrectIndex(origIdx);
+        if(chosenEl){
+          if(chosenEl.dataset.i == correctIdx) chosenEl.classList.add('correct');
+          else chosenEl.classList.add('wrong');
+        }
+        const correctEl = optsContainer.querySelector(`.opt[data-i="${correctIdx}"]`);
+        if(correctEl) correctEl.classList.add('correct');
+        // disable pointer events
+        optsContainer.querySelectorAll('.opt').forEach(el => el.style.pointerEvents = 'none');
+        // show reveal if previously revealed
+        if(state[origIdx].revealed){
+          showAnswer(origIdx);
+        }
+      }
+    }
+  });
+}
+
+/* initial render */
+renderQuestionsByOrder();
+
+/* ====== helper: correctIndexMap ======
+   currently all correct answers are option index 0 in the dataset.
+   If you change the correct option for any question, update this map:
+   key = question original index (0..49), value = correct option index (0..3)
+*/
+const correctIndexMap = {
+  0:0,1:0,2:0,3:0,4:0,5:0,6:0,7:0,8:0,9:0,
+  10:0,11:0,12:0,13:0,14:0,15:0,16:0,17:0,18:0,19:0,
+  20:0,21:0,22:0,23:0,24:0,25:0,26:0,27:0,28:0,29:0,
+  30:0,31:0,32:0,33:0,34:0,35:0,36:0,37:0,38:0,39:0,
+  40:0,41:0,42:0,43:0,44:0,45:0,46:0,47:0,48:0,49:0
+};
+
+function getCorrectIndex(origQuestionIndex){
+  return (typeof correctIndexMap[origQuestionIndex] !== 'undefined') ? correctIndexMap[origQuestionIndex] : 0;
+}
+
+/* ====== Event delegation: handle clicks on options & buttons ====== */
+quizList.addEventListener('click', function(e){
+  const opt = e.target.closest('.opt');
+  if(opt){
+    const orig = parseInt(opt.dataset.qorig,10);
+    const chosen = parseInt(opt.dataset.i,10);
+    handleSelection(orig, chosen, opt.closest('.qcard'));
+    return;
+  }
+  const revealBtn = e.target.closest('.revealBtn');
+  if(revealBtn){
+    const orig = parseInt(revealBtn.dataset.qorig,10);
+    showAnswer(orig);
+    return;
+  }
+  const explainBtn = e.target.closest('.explainBtn');
+  if(explainBtn){
+    const orig = parseInt(explainBtn.dataset.qorig,10);
+    showAnswer(orig);
+    return;
+  }
+});
+
+/* ====== handleSelection: immediate feedback + scoring lock ====== */
+function handleSelection(origIndex, chosenIndex, cardElement){
+  // safety
+  if(origIndex < 0 || origIndex >= questions.length) return;
+
+  // if already scored, do nothing (prevent change)
+  if(state[origIndex].scored) return;
+
+  const optsContainer = cardElement.querySelector('.opts');
+  // mark visual selection
+  optsContainer.querySelectorAll('.opt').forEach(el=> el.classList.remove('selected'));
+  const chosenEl = optsContainer.querySelector(`.opt[data-i="${chosenIndex}"]`);
+  if(chosenEl) chosenEl.classList.add('selected');
+
+  // determine correct index
+  const correctIdx = getCorrectIndex(origIndex);
+
+  if(chosenIndex === correctIdx){
+    // correct
+    if(chosenEl) chosenEl.classList.add('correct');
+    state[origIndex].selIndex = chosenIndex;
+    state[origIndex].scored = true;
+    // reveal answer & explanations
+    showAnswer(origIndex);
+  } else {
+    // wrong
+    if(chosenEl) chosenEl.classList.add('wrong');
+    const correctEl = optsContainer.querySelector(`.opt[data-i="${correctIdx}"]`);
+    if(correctEl) correctEl.classList.add('correct');
+    state[origIndex].selIndex = chosenIndex;
+    state[origIndex].scored = true; // attempted but 0 point
+    showAnswer(origIndex);
+  }
+
+  // disable further clicks on options for this question
+  optsContainer.querySelectorAll('.opt').forEach(el => el.style.pointerEvents = 'none');
+}
+
+/* ====== showAnswer (Arabic) ====== */
+function showAnswer(origIndex){
+  const rdiv = document.getElementById(`reveal-${origIndex}`);
+  if(!rdiv) return;
+  const ansSpan = document.getElementById(`ans-${origIndex}`);
+  const exp1 = document.getElementById(`exp1-${origIndex}`);
+  const exp2 = document.getElementById(`exp2-${origIndex}`);
+  const item = questions[origIndex];
+  ansSpan.textContent = item.answerArabic;
+  exp1.textContent = "شرح 1: " + item.exp1;
+  exp2.textContent = "شرح 2: " + item.exp2;
+  rdiv.style.display = 'block';
+  state[origIndex].revealed = true;
+}
+
+/* ====== Shuffle & ShowAll & Search (operate on displayOrder) ====== */
+document.getElementById('shuffle').addEventListener('click', function(){
+  // Fisher-Yates on displayOrder
+  for(let i=displayOrder.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [displayOrder[i], displayOrder[j]] = [displayOrder[j], displayOrder[i]];
+  }
+  renderQuestionsByOrder();
+});
+
+document.getElementById('showAll').addEventListener('click', function(){
+  displayOrder = Array.from({length: totalQuestions}, (_,i)=>i);
+  renderQuestionsByOrder();
+});
+
+document.getElementById('search').addEventListener('input', function(){
+  const s = this.value.trim().toLowerCase();
+  if(!s){
+    displayOrder = Array.from({length: totalQuestions}, (_,i)=>i);
+    renderQuestionsByOrder();
+    return;
+  }
+  const filtered = [];
+  for(let i=0;i<questions.length;i++){
+    const qLower = questions[i].q.toLowerCase();
+    const optsJoined = questions[i].opts.join(' ').toLowerCase();
+    if(qLower.includes(s) || optsJoined.includes(s)) filtered.push(i);
+  }
+  displayOrder = filtered;
+  renderQuestionsByOrder();
+});
+
+/* ====== Finish / Reset ====== */
+document.getElementById('finishBtn').addEventListener('click', finishQuiz);
+document.getElementById('resetBtn').addEventListener('click', function(){
+  // reset state
+  state = new Array(totalQuestions).fill(null).map(()=>({ selIndex:null, revealed:false, scored:false }));
+  displayOrder = Array.from({length: totalQuestions}, (_,i)=>i);
+  renderQuestionsByOrder();
+  document.getElementById('resultText').textContent = 'لم يتم احتساب النتيجة بعد. اضغط "إنهاء الاختبار" عند الانتهاء.';
+  document.getElementById('advice').textContent = '';
+});
+
+/* ====== finishQuiz: compute score based on state & correctIndexMap ====== */
+function finishQuiz(){
+  let total = totalQuestions;
+  let correct = 0;
+  for(let i=0;i<total;i++){
+    const sel = state[i].selIndex;
+    if(sel !== null && sel === getCorrectIndex(i)) correct++;
+  }
+  const resultText = document.getElementById('resultText');
+  resultText.innerHTML = `حصلت على <strong>${correct}</strong> من <strong>${total}</strong> نقطة.`;
+
+  const percent = (correct/total)*100;
+  const advice = document.getElementById('advice');
+  if(percent >= 85) advice.textContent = "🔥 ممتاز! مستواك قوي جداً — استمر بالمراجعة المتقدمة.";
+  else if(percent >= 60) advice.textContent = "✨ جيد! تحتاج مراجعة لبعض النقاط الأساسية.";
+  else advice.textContent = "⚠️ بحاجة إلى تحسين: راجع الأساسيات وتمرّن أكثر.";
+
+  resultText.scrollIntoView({behavior:'smooth', block:'center'});
+}
+
+/* ====== End of script ====== */
+</script>
+</body>
+</html>
