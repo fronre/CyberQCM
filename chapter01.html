@@ -107,29 +107,29 @@
 <script>
 /* ====== Dataset: 50 questions ====== */
 const questions = [
-/* 0 */ { q:"What is IP spoofing?", opts:["Encrypting packets", "Updating DNS", "Filtering traffic", "Faking source IP address"], answerArabic:"تزوير عنوان الـ IP المصدر.", exp1:"المهاجم يغير عنوان المصدر ليبدو وكأنه من جهاز آخر.", exp2:"يستخدم لتجاوز قوائم التحكم أو لخداع الضحية أو أجهزة الشبكة."},
-/* 1 */ { q:"What is ARP poisoning?", opts:["Injecting fake ARP entries", "Port knocking", "Session hijack", "Brute force"], answerArabic:"حقن مدخلات ARP خاطئة في شبكة محلية.", exp1:"يغيّر المهاجم ارتباط الـ IP مع MAC ليحرف المرور.", exp2:"يؤدي إلى اعتراض الحركة أو تنفيذ هجوم Man-in-the-Middle."},
-/* 2 */ { q:"DNS cache poisoning aims to:", opts:["Update records", "Speed DNS", "Store fake DNS responses", "Encrypt DNS"], answerArabic:"تخزين ردود DNS مزيفة في الكاش لإعادة توجيه المستخدمين.", exp1:"بعد التسميم، المستخدم يذهب لموقع الضحية بدل الموقع المقصود.", exp2:"يستغل ضعف الـ resolver أو قرب الوقت/TTL لتنفيذ الهجوم."},
-/* 3 */ { q:"What is a SYN flood attack?", opts:["ARP scan", "DNS hijack", "Many SYN requests without completion", "SQL injection"], answerArabic:"إرسال عدد كبير من طلبات SYN دون إكمال المصافحة TCP.", exp1:"الخادم يبقى بانتظار ACK ما يؤدي لاستنزاف الموارد.", exp2:"نوع من هجمات DoS يهدف لقطع الخدمة عبر استهلاك جداول الاتصالات."},
-/* 4 */ { q:"What does XSS attack target?", opts:["Antivirus", "User browsers", "Database engine", "Router firmware"], answerArabic:"متصفحات المستخدمين عبر تنفيذ سكربت ضار.", exp1:"يحقن المهاجم جافاسكربت تعمل عند ضحية تزور الصفحة.", exp2:"يمكن سرقة الكوكيز، تنفيذ أوامر نيابة عن الضحية، أو تغييرات بالمحتوى."},
-/* 5 */ { q:"What is SQL Injection?", opts:["Encrypting DB", "Firewall rule", "Injecting malicious SQL commands", "Data backup"], answerArabic:"حقن استعلامات SQL خبيثة عبر مدخلات غير معقمة.", exp1:"المهاجم يغيّر استعلامات قاعدة البيانات للحصول على بيانات أو تغييرها.", exp2:"يمكن أن يؤدي لتسريب بيانات حساسة أو حذفها أو الحصول على امتيازات."},
-/* 6 */ { q:"What is ransomware?", opts:["Patch management", "Rootkit", "Malware that encrypts files for ransom", "Adware"], answerArabic:"برمجية خبيثة تشفر ملفات الضحية وتطالب بفدية.", exp1:"يمنع الضحية من الوصول لملفاته دون دفع الفدية.", exp2:"قد تسرق نسخاً من البيانات قبل التشفير وتستخدم للضغط."},
-/* 7 */ { q:"What is a worm?", opts:["Password manager", "Self-replicating malware across networks", "Firewall feature", "Browser exploit"], answerArabic:"برمجية خبيثة تنسخ نفسها وتنتشر عبر الشبكات.", exp1:"الـ worm يهاجر بلا تدخل المستخدم إلى أجهزة أخرى.", exp2:"يسبب انتشاراً سريعاً ويستهلك عرض النطاق والموارد."},
-/* 8 */ { q:"What is a Trojan?", opts:["IDS system", "Malicious program disguised as legitimate", "Encryption tool", "Network scanner"], answerArabic:"برنامج خبيث يتظاهر بأنه مشروع لكنه يحتوي وظائف ضارة.", exp1:"يخدع المستخدم لتنزيله ثم يفعل مهام ضارة كفتح بوابات خلفية.", exp2:"يُستخدم عادة للوصول غير المصرح أو تحميل أدوات أخرى."},
-/* 9 */ { q:"What is a rootkit?", opts:["Tool to hide malware presence", "Antivirus signature", "Backup tool", "Encryption method"], answerArabic:"أداة تعمل على إخفاء وجود برمجيات خبيثة داخل النظام.", exp1:"تتلاعب بالنواة أو أدوات النظام لتخفي ملفات وعمليات.", exp2:"تجعل اكتشاف وإزالة البرمجيات الخبيثة صعباً للغاية."},
-/* 10 */ { q:"What is 'social engineering'?", opts:["Encrypting traffic", "Manipulating people to reveal info", "Malware scan", "Port forwarding"], answerArabic:"خداع الأشخاص للحصول على معلومات أو وصول.", exp1:"الهجوم يعتمد على ضعف السلوك وليس ثغرة تقنية.", exp2:"أمثلة: phishing، pretexting، vishing، tailgating."},
-/* 11 */ { q:"What is phishing?", opts:["System update", "File compression", "Network slowdown", "Fraudulent messages to steal credentials"], answerArabic:"رسائل احتيالية تهدف لخداع المستخدم وسرقة بياناته.", exp1:"تُرسل رسائل تشبه جهات موثوقة وتطلب بيانات حساسة.", exp2:"قد توجه المستخدم لمواقع مزيفة تطلب تسجيل الدخول."},
-/* 12 */ { q:"What is 'brute force' attack?", opts:["SQL patch", "ARP spoofing", "Trying many passwords until success", "Phishing attack"], answerArabic:"محاولة كل تركيبات كلمات السر حتى الوصول.", exp1:"يستعمل برامج أو سكربتات لتخمين كلمات المرور بسرعة.", exp2:"يمكن التخفيف منه بفرض قيود على المحاولات والمصادقة الثنائية."},
-/* 13 */ { q:"Two-Factor Authentication (2FA) means:", opts:["Two verification methods for identity", "Two firewalls", "Two emails", "Two passwords"], answerArabic:"استخدام طريقتين للتحقق من هوية المستخدم.", exp1:"مثال: كلمة سر + كود من تطبيق أو رسالة SMS.", exp2:"يزيد من أمان الحساب حتى لو تسربت كلمة المرور."},
-/* 14 */ { q:"What is a firewall?", opts:["Data backup", "DNS server", "Malware type", "Device that filters network traffic"], answerArabic:"جهاز أو برنامج يفلتر حركة الشبكة ويمنع الاتصالات غير المرغوبة.", exp1:"يطبق قواعد لتحديد ما يُسمح وما يُمنع من اتصالات.", exp2:"يعمل على مستوى الشبكة أو التطبيق لتقليل الهجمات."},
-/* 15 */ { q:"What is IDS (Intrusion Detection System)?", opts:["Scans ports only", "Encrypts files", "Detects suspicious activity", "Reboots servers"], answerArabic:"نظام يكشف النشاط المشبوه ويُبلّغ المسؤولين.", exp1:"يمكن أن يكون شبكياً أو على المضيف ويكشف محاولات التسلل.", exp2:"لا يمنع بالضرورة لكنه يدعم الاستجابة السريعة للحوادث."},
-/* 16 */ { q:"What is IPS (Intrusion Prevention System)?", opts:["Detects and blocks attacks", "Backs up data", "Only logs events", "Encrypts traffic"], answerArabic:"نظام يكتشف ويمنع الهجمات تلقائياً.", exp1:"يشبه IDS ولكنه قادر على حجب الاتصالات المشبوهة.", exp2:"يتطلب ضبطاً دقيقاً لتجنب حجب حركة شرعية (false positives)."},
-/* 17 */ { q:"What is 'man-in-the-middle' (MITM)?", opts:["Malware update", "DNS server", "USB infection", "Attacker intercepts communications"], answerArabic:"اعتراض المهاجم للاتصال بين طرفين لقراءة أو تغيير الرسائل.", exp1:"المهاجم يمرر الرسائل بعد تعديلها أو مراقبتها.", exp2:"الحماية: تشفير الطرف الطرف (TLS) والتحقق من الشهادات."},
-/* 18 */ { q:"What is SSL/TLS used for?", opts:["Scanning ports", "Compressing images", "Blocking IPs", "Encrypting connections (HTTPS)"], answerArabic:"تشفير الاتصال بين المتصفح والخادم لضمان السرية والسلامة.", exp1:"يمنع التنصت ويؤمن تبادل البيانات الهامة.", exp2:"يستخدم شهادات رقمية للتحقق من هوية الخوادم."},
-/* 19 */ { q:"What is 'certificate pinning'?", opts:["Firewall rule", "Encrypting files", "Port scanning", "Binding a service to a specific certificate"], answerArabic:"ربط تطبيق بشهادة رقمية محددة للتحقق من الخادم.", exp1:"يقلل مخاطر MITM عبر رفض شهادات أخرى.", exp2:"مفيد في تطبيقات الجوال لتقوية التحقق من الخوادم."},
-/* 20 */ { q:"What is 'hashing'?", opts:["File transfer", "One-way function to represent data", "Two-way encryption", "Password storage in plain"], answerArabic:"دالة تحويل أحادية الاتجاه تُستخدم لتمثيل البيانات.", exp1:"لا يمكن استرداد النص الأصلي بسهولة من الهاش.", exp2:"يستخدم لحفظ كلمات المرور ومقارنة السلامة (integrity)."},
-/* 21 */ { q:"What is 'salting' passwords?", opts:["Double hashing", "Removing password", "Adding random data before hashing", "Encrypting hash"], answerArabic:"إضافة سلاطة (قيمة عشوائية) قبل الهاشن لمنع هجمات القواميس.", exp1:"حتى لو تساوى كلمتا سر، سيختلف الهاش بوجود سالت مختلف.", exp2:"يجعل الهجمات على قواعد الهاش أقل فاعلية."},
-/* 22 */ { q:"What is 'social engineering: pretexting'?", opts:["Malware signature", "Port scanning", "SQL fixing", "Creating a fake identity to extract info"], answerArabic:"اختراع قصة أو هوية مزيفة لخداع الضحية وإخراج معلومات.", exp1:"المهاجم يتظاهر بموظف أو جهة رسمية للحصول على بيانات.", exp2:"يصعب اكتشافه لأن الأسلوب يعتمد على التفاعل الإنساني."},
+/* 0 */ { q:"What is IP spoofing?", opts:["Encrypting packets", "Updating DNS", "Filtering traffic", "Faking source IP address"], answer:3, answerArabic:"تزوير عنوان الـ IP المصدر.", exp1:"المهاجم يغير عنوان المصدر ليبدو وكأنه من جهاز آخر.", exp2:"يستخدم لتجاوز قوائم التحكم أو لخداع الضحية أو أجهزة الشبكة."},
+/* 1 */ { q:"What is ARP poisoning?", opts:["Injecting fake ARP entries", "Port knocking", "Session hijack", "Brute force"], answer:0, answerArabic:"حقن مدخلات ARP خاطئة في شبكة محلية.", exp1:"يغيّر المهاجم ارتباط الـ IP مع MAC ليحرف المرور.", exp2:"يؤدي إلى اعتراض الحركة أو تنفيذ هجوم Man-in-the-Middle."},
+/* 2 */ { q:"DNS cache poisoning aims to:", opts:["Update records", "Speed DNS", "Store fake DNS responses", "Encrypt DNS"], answer:2, answerArabic:"تخزين ردود DNS مزيفة في الكاش لإعادة توجيه المستخدمين.", exp1:"بعد التسميم، المستخدم يذهب لموقع الضحية بدل الموقع المقصود.", exp2:"يستغل ضعف الـ resolver أو قرب الوقت/TTL لتنفيذ الهجوم."},
+/* 3 */ { q:"What is a SYN flood attack?", opts:["ARP scan", "DNS hijack", "Many SYN requests without completion", "SQL injection"], answer:2, answerArabic:"إرسال عدد كبير من طلبات SYN دون إكمال المصافحة TCP.", exp1:"الخادم يبقى بانتظار ACK ما يؤدي لاستنزاف الموارد.", exp2:"نوع من هجمات DoS يهدف لقطع الخدمة عبر استهلاك جداول الاتصالات."},
+/* 4 */ { q:"What does XSS attack target?", opts:["Antivirus", "User browsers", "Database engine", "Router firmware"], answer:1, answerArabic:"متصفحات المستخدمين عبر تنفيذ سكربت ضار.", exp1:"يحقن المهاجم جافاسكربت تعمل عند ضحية تزور الصفحة.", exp2:"يمكن سرقة الكوكيز، تنفيذ أوامر نيابة عن الضحية، أو تغييرات بالمحتوى."},
+/* 5 */ { q:"What is SQL Injection?", opts:["Encrypting DB", "Firewall rule", "Injecting malicious SQL commands", "Data backup"], answer:2, answerArabic:"حقن استعلامات SQL خبيثة عبر مدخلات غير معقمة.", exp1:"المهاجم يغيّر استعلامات قاعدة البيانات للحصول على بيانات أو تغييرها.", exp2:"يمكن أن يؤدي لتسريب بيانات حساسة أو حذفها أو الحصول على امتيازات."},
+/* 6 */ { q:"What is ransomware?", opts:["Patch management", "Rootkit", "Malware that encrypts files for ransom", "Adware"], answer:2, answerArabic:"برمجية خبيثة تشفر ملفات الضحية وتطالب بفدية.", exp1:"يمنع الضحية من الوصول لملفاته دون دفع الفدية.", exp2:"قد تسرق نسخاً من البيانات قبل التشفير وتستخدم للضغط."},
+/* 7 */ { q:"What is a worm?", opts:["Password manager", "Self-replicating malware across networks", "Firewall feature", "Browser exploit"], answer:1, answerArabic:"برمجية خبيثة تنسخ نفسها وتنتشر عبر الشبكات.", exp1:"الـ worm يهاجر بلا تدخل المستخدم إلى أجهزة أخرى.", exp2:"يسبب انتشاراً سريعاً ويستهلك عرض النطاق والموارد."},
+/* 8 */ { q:"What is a Trojan?", opts:["IDS system", "Malicious program disguised as legitimate", "Encryption tool", "Network scanner"], answer:1, answerArabic:"برنامج خبيث يتظاهر بأنه مشروع لكنه يحتوي وظائف ضارة.", exp1:"يخدع المستخدم لتنزيله ثم يفعل مهام ضارة كفتح بوابات خلفية.", exp2:"يُستخدم عادة للوصول غير المصرح أو تحميل أدوات أخرى."},
+/* 9 */ { q:"What is a rootkit?", opts:["Tool to hide malware presence", "Antivirus signature", "Backup tool", "Encryption method"], answer:0, answerArabic:"أداة تعمل على إخفاء وجود برمجيات خبيثة داخل النظام.", exp1:"تتلاعب بالنواة أو أدوات النظام لتخفي ملفات وعمليات.", exp2:"تجعل اكتشاف وإزالة البرمجيات الخبيثة صعباً للغاية."},
+/* 10 */ { q:"What is 'social engineering'?", opts:["Encrypting traffic", "Manipulating people to reveal info", "Malware scan", "Port forwarding"], answer:1, answerArabic:"خداع الأشخاص للحصول على معلومات أو وصول.", exp1:"الهجوم يعتمد على ضعف السلوك وليس ثغرة تقنية.", exp2:"أمثلة: phishing، pretexting، vishing، tailgating."},
+/* 11 */ { q:"What is phishing?", opts:["System update", "File compression", "Network slowdown", "Fraudulent messages to steal credentials"], answer:3, answerArabic:"رسائل احتيالية تهدف لخداع المستخدم وسرقة بياناته.", exp1:"تُرسل رسائل تشبه جهات موثوقة وتطلب بيانات حساسة.", exp2:"قد توجه المستخدم لمواقع مزيفة تطلب تسجيل الدخول."},
+/* 12 */ { q:"What is 'brute force' attack?", opts:["SQL patch", "ARP spoofing", "Trying many passwords until success", "Phishing attack"], answer:2, answerArabic:"محاولة كل تركيبات كلمات السر حتى الوصول.", exp1:"يستعمل برامج أو سكربتات لتخمين كلمات المرور بسرعة.", exp2:"يمكن التخفيف منه بفرض قيود على المحاولات والمصادقة الثنائية."},
+/* 13 */ { q:"Two-Factor Authentication (2FA) means:", opts:["Two verification methods for identity", "Two firewalls", "Two emails", "Two passwords"], answer:0, answerArabic:"استخدام طريقتين للتحقق من هوية المستخدم.", exp1:"مثال: كلمة سر + كود من تطبيق أو رسالة SMS.", exp2:"يزيد من أمان الحساب حتى لو تسربت كلمة المرور."},
+/* 14 */ { q:"What is a firewall?", opts:["Data backup", "DNS server", "Malware type", "Device that filters network traffic"], answer:3, answerArabic:"جهاز أو برنامج يفلتر حركة الشبكة ويمنع الاتصالات غير المرغوبة.", exp1:"يطبق قواعد لتحديد ما يُسمح وما يُمنع من اتصالات.", exp2:"يعمل على مستوى الشبكة أو التطبيق لتقليل الهجمات."},
+/* 15 */ { q:"What is IDS (Intrusion Detection System)?", opts:["Scans ports only", "Encrypts files", "Detects suspicious activity", "Reboots servers"], answer:2, answerArabic:"نظام يكشف النشاط المشبوه ويُبلّغ المسؤولين.", exp1:"يمكن أن يكون شبكياً أو على المضيف ويكشف محاولات التسلل.", exp2:"لا يمنع بالضرورة لكنه يدعم الاستجابة السريعة للحوادث."},
+/* 16 */ { q:"What is IPS (Intrusion Prevention System)?", opts:["Detects and blocks attacks", "Backs up data", "Only logs events", "Encrypts traffic"], answer:0, answerArabic:"نظام يكتشف ويمنع الهجمات تلقائياً.", exp1:"يشبه IDS ولكنه قادر على حجب الاتصالات المشبوهة.", exp2:"يتطلب ضبطاً دقيقاً لتجنب حجب حركة شرعية (false positives)."},
+/* 17 */ { q:"What is 'man-in-the-middle' (MITM)?", opts:["Malware update", "DNS server", "USB infection", "Attacker intercepts communications"], answer:3, answerArabic:"اعتراض المهاجم للاتصال بين طرفين لقراءة أو تغيير الرسائل.", exp1:"المهاجم يمرر الرسائل بعد تعديلها أو مراقبتها.", exp2:"الحماية: تشفير الطرف الطرف (TLS) والتحقق من الشهادات."},
+/* 18 */ { q:"What is SSL/TLS used for?", opts:["Scanning ports", "Compressing images", "Blocking IPs", "Encrypting connections (HTTPS)"], answer:3, answerArabic:"تشفير الاتصال بين المتصفح والخادم لضمان السرية والسلامة.", exp1:"يمنع التنصت ويؤمن تبادل البيانات الهامة.", exp2:"يستخدم شهادات رقمية للتحقق من هوية الخوادم."},
+/* 19 */ { q:"What is 'certificate pinning'?", opts:["Firewall rule", "Encrypting files", "Port scanning", "Binding a service to a specific certificate"], answer:3, answerArabic:"ربط تطبيق بشهادة رقمية محددة للتحقق من الخادم.", exp1:"يقلل مخاطر MITM عبر رفض شهادات أخرى.", exp2:"مفيد في تطبيقات الجوال لتقوية التحقق من الخوادم."},
+/* 20 */ { q:"What is 'hashing'?", opts:["File transfer", "One-way function to represent data", "Two-way encryption", "Password storage in plain"], answer:1, answerArabic:"دالة تحويل أحادية الاتجاه تُستخدم لتمثيل البيانات.", exp1:"لا يمكن استرداد النص الأصلي بسهولة من الهاش.", exp2:"يستخدم لحفظ كلمات المرور ومقارنة السلامة (integrity)."},
+/* 21 */ { q:"What is 'salting' passwords?", opts:["Double hashing", "Removing password", "Adding random data before hashing", "Encrypting hash"], answer:2, answerArabic:"إضافة سلاطة (قيمة عشوائية) قبل الهاشن لمنع هجمات القواميس.", exp1:"حتى لو تساوى كلمتا سر، سيختلف الهاش بوجود سالت مختلف.", exp2:"يجعل الهجمات على قواعد الهاش أقل فاعلية."},
+/* 22 */ { q:"What is 'social engineering: pretexting'?", opts:["Malware signature", "Port scanning", "SQL fixing", "Creating a fake identity to extract info"], answer:3, answerArabic:"اختراع قصة أو هوية مزيفة لخداع الضحية وإخراج معلومات.", exp1:"المهاجم يتظاهر بموظف أو جهة رسمية للحصول على بيانات.", exp2:"يصعب اكتشافه لأن الأسلوب يعتمد على التفاعل الإنساني."},
 ];
 
 /* ====== State (per original question index) ====== */
@@ -175,7 +175,7 @@ function renderQuestionsByOrder(){
       if(chosenEl) chosenEl.classList.add('selected');
       // if already scored, mark correct/wrong
       if(state[origIdx].scored){
-        const correctIdx = getCorrectIndex(origIdx);
+        const correctIdx = questions[origIdx].answer;
         if(chosenEl){
           if(chosenEl.dataset.i == correctIdx) chosenEl.classList.add('correct');
           else chosenEl.classList.add('wrong');
@@ -195,23 +195,6 @@ function renderQuestionsByOrder(){
 
 /* initial render */
 renderQuestionsByOrder();
-
-/* ====== helper: correctIndexMap ======
-   currently all correct answers are option index 0 in the dataset.
-   If you change the correct option for any question, update this map:
-   key = question original index (0..49), value = correct option index (0..3)
-*/
-const correctIndexMap = {
-  0:0,1:0,2:0,3:0,4:0,5:0,6:0,7:0,8:0,9:0,
-  10:0,11:0,12:0,13:0,14:0,15:0,16:0,17:0,18:0,19:0,
-  20:0,21:0,22:0,23:0,24:0,25:0,26:0,27:0,28:0,29:0,
-  30:0,31:0,32:0,33:0,34:0,35:0,36:0,37:0,38:0,39:0,
-  40:0,41:0,42:0,43:0,44:0,45:0,46:0,47:0,48:0,49:0
-};
-
-function getCorrectIndex(origQuestionIndex){
-  return (typeof correctIndexMap[origQuestionIndex] !== 'undefined') ? correctIndexMap[origQuestionIndex] : 0;
-}
 
 /* ====== Event delegation: handle clicks on options & buttons ====== */
 quizList.addEventListener('click', function(e){
@@ -251,7 +234,7 @@ function handleSelection(origIndex, chosenIndex, cardElement){
   if(chosenEl) chosenEl.classList.add('selected');
 
   // determine correct index
-  const correctIdx = getCorrectIndex(origIndex);
+  const correctIdx = questions[origIndex].answer;
 
   if(chosenIndex === correctIdx){
     // correct
@@ -338,7 +321,7 @@ function finishQuiz(){
   let correct = 0;
   for(let i=0;i<total;i++){
     const sel = state[i].selIndex;
-    if(sel !== null && sel === getCorrectIndex(i)) correct++;
+    if(sel !== null && sel === questions[i].answer) correct++;
   }
   const resultText = document.getElementById('resultText');
   resultText.innerHTML = `حصلت على <strong>${correct}</strong> من <strong>${total}</strong> نقطة.`;
