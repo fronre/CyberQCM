@@ -194,9 +194,9 @@ function renderQuestionsByOrder(){
 /* initial render */
 renderQuestionsByOrder();
 
-/* correctIndexMap default (all 0) */
+/* default correct index - get from answer field */
 function getCorrectIndex(origQuestionIndex){
-  return 0;
+  return questions[origQuestionIndex].answer || 0;
 }
 
 /* event delegation */
